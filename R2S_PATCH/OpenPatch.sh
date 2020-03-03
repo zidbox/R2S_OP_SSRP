@@ -35,6 +35,7 @@ svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/kcptun package/le
 svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/simple-obfs package/lean/simple-obfs
 svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/v2ray-plugin package/lean/v2ray-plugin
 svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/srelay package/lean/srelay
+svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/microsocks package/lean/microsocks
 sed -i 's,$(STAGING,#$(STAGING,g' package/lean/v2ray-plugin/Makefile
 #订阅转换
 svn co https://github.com/project-openwrt/openwrt/trunk/package/ctcgfw/subconverter package/new/subconverter
