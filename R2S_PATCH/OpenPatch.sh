@@ -1,6 +1,10 @@
 #!/bin/bash
 clear
 ./scripts/feeds update -a && ./scripts/feeds install -a
+#网易云解锁
+git clone -b master --single-branch https://github.com/cnsilvan/luci-app-unblockneteasemusic.git package/new/unblockneteasemusic
+sed -i 's/upx/#upx/g' package/new/unblockneteasemusic/UnblockNeteaseMusic/Makefile
+svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-lib-fs package/lean/luci-lib-fs
 #irqbalance
 sed -i 's/0/1/g' feeds/packages/utils/irqbalance/files/irqbalance.config
 #定时重启
