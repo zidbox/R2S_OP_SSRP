@@ -28,6 +28,7 @@ jobs:
         sudo -E apt-get autoremove -y --purge
         sudo -E apt-get clean -y
         sudo -E rm -rf /usr/share/dotnet /etc/mysql /etc/php
+        exit 0
     - name: Build Stage1
       run: |
         sudo chown -R runner:runner /home/runner/work/R2S_OP_SSRP
