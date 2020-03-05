@@ -1,6 +1,8 @@
 #!/bin/bash
 clear
 ./scripts/feeds update -a && ./scripts/feeds install -a
+rm -rf ./package/system/rpcd
+svn co https://github.com/openwrt/openwrt/branches/openwrt-19.07/package/system/rpcd package/system/rpcd
 #网易云解锁
 git clone -b master --single-branch https://github.com/cnsilvan/luci-app-unblockneteasemusic.git package/new/unblockneteasemusic
 sed -i 's/upx/#upx/g' package/new/unblockneteasemusic/UnblockNeteaseMusic/Makefile
