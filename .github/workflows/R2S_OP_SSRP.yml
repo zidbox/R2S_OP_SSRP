@@ -45,6 +45,7 @@ jobs:
       run: |
         cd /home/runner/work/R2S_OP_SSRP/R2S_OP_SSRP/friendlywrt-rk3328/friendlywrt
         /bin/bash 04_remove_upx.sh
+        make defconfig
     - name: Build Mixedwrt
       run: |
         cd /home/runner/work/R2S_OP_SSRP/R2S_OP_SSRP/friendlywrt-rk3328
