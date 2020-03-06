@@ -37,6 +37,7 @@ jobs:
       run: |
         cd /home/runner/work/R2S_OP_SSRP/R2S_OP_SSRP/friendlywrt-rk3328/friendlywrt
         /bin/bash OpenPatch.sh
+        /bin/bash remove_upx.sh
     - name: Build Stage3
       run: |
         cd /home/runner/work/R2S_OP_SSRP/R2S_OP_SSRP/friendlywrt-rk3328
