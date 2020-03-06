@@ -28,17 +28,24 @@ jobs:
         sudo -E apt-get autoremove -y --purge
         sudo -E apt-get clean -y
         sudo -E rm -rf /usr/share/dotnet /etc/mysql /etc/php
-    - name: Build Stage1
+    - name: Prepare Mixedwrt
       run: |
         sudo chown -R runner:runner /home/runner/work/R2S_OP_SSRP
         cd /home/runner/work/R2S_OP_SSRP/R2S_OP_SSRP
-        /bin/bash Stage1.sh
-    - name: Build Stage2
+        /bin/bash 01_prepare_mixedwrt.sh
+    - name: Prepare Package
       run: |
         cd /home/runner/work/R2S_OP_SSRP/R2S_OP_SSRP/friendlywrt-rk3328/friendlywrt
-        /bin/bash OpenPatch.sh
-        /bin/bash remove_upx.sh
-    - name: Build Stage3
+        /bin/bash 02_prepare_package.sh
+    - name: Convert Translation
+      run: |
+        cd /home/runner/work/R2S_OP_SSRP/R2S_OP_SSRP/friendlywrt-rk3328/friendlywrt
+        /bin/bash 03_convert_translation.sh
+    - name: Remove Upx
+      run: |
+        cd /home/runner/work/R2S_OP_SSRP/R2S_OP_SSRP/friendlywrt-rk3328/friendlywrt
+        /bin/bash 04_remove_upx.sh
+    - name: Build Mixedwrt
       run: |
         cd /home/runner/work/R2S_OP_SSRP/R2S_OP_SSRP/friendlywrt-rk3328
         ./scripts/build.sh nanopi_r2s.mk

@@ -22,16 +22,5 @@ rm -rf ./R2S_PATCH/.git
 cp -rf ./R2S_PATCH/. ./friendlywrt-rk3328/friendlywrt/
 cd friendlywrt-rk3328
 sed -i 's,./scripts,#./scripts,g' scripts/mk-friendlywrt.sh
-#git clone -b linux-5.4.y https://github.com/gregkh/linux.git
-#git clone -b master https://github.com/QiuSimons/Kernel_Patch_RK3328_5.4.y.git
-#rm -rf ./kernel/.
-#cp -rf ./Kernel_Patch_RK3328_5.4.y/. ./linux
-#rm -rf ./Kernel_Patch_RK3328_5.4.y
-#cp -rf ./linux/. ./kernel
-#rm -rf ./linux
 sed -i 's,CONFIG_BPFILTER=y,CONFIG_BPFILTER=n,g' kernel/arch/arm64/configs/nanopi-r2_linux_defconfig
-pushd friendlywrt
-#bash OpenPatch.sh
-popd
-#./scripts/build.sh nanopi_r2s.mk
 exit 0

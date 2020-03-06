@@ -1,12 +1,12 @@
 #!/bin/bash
 clear
 ./scripts/feeds update -a && ./scripts/feeds install -a
+#RPCD依赖
 rm -rf ./package/system/rpcd
 svn co https://github.com/openwrt/openwrt/branches/openwrt-19.07/package/system/rpcd package/system/rpcd
 #网易云解锁
 svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/UnblockNeteaseMusicGo package/lean/UnblockNeteaseMusicGo	svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/UnblockNeteaseMusicGo package/lean/UnblockNeteaseMusicGo
 svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-app-unblockmusic package/lean/luci-app-unblockmusic	svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-app-unblockmusic package/lean/luci-app-unblockmusic
-#sed -i 's,$(STAGING_DIR_HOST)/bin/upx,#$(STAGING_DIR_HOST)/bin/upx,g' package/lean/UnblockNeteaseMusicGo/Makefile
 svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-lib-fs package/lean/luci-lib-fs
 #irqbalance
 sed -i 's/0/1/g' feeds/packages/utils/irqbalance/files/irqbalance.config
@@ -17,22 +17,15 @@ git clone -b master --single-branch https://github.com/QiuSimons/Luci-argon-19 p
 #git clone -b master --single-branch https://github.com/jerrykuku/luci-theme-argon package/new/luci-theme-argon
 #AdGuard
 git clone -b master --single-branch https://github.com/rufengsuixing/luci-app-adguardhome package/new/luci-app-adguardhome
-#VSSR
+#SSRP
 svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-app-ssr-plus package/lean/luci-app-ssr-plus
 sed -i 's/mux = 1/mux = 0/g' package/lean/luci-app-ssr-plus/root/usr/share/shadowsocksr/subscribe.lua
 rm -f ./package/lean/luci-app-ssr-plus/luasrc/model/cbi/shadowsocksr/client.lua
 wget -P ./package/lean/luci-app-ssr-plus/luasrc/model/cbi/shadowsocksr https://raw.githubusercontent.com/QiuSimons/SSR_PATCH/master/luasrc/model/cbi/shadowsocksr/client.lua
-#rm -f ./package/lean/luci-app-ssr-plus/root/etc/init.d/shadowsocksr
-#wget -P ./package/lean/luci-app-ssr-plus/root/etc/init.d https://raw.githubusercontent.com/QiuSimons/SSR_PATCH/master/root/etc/init.d/shadowsocksr
 rm -f ./package/lean/luci-app-ssr-plus/root/usr/share/shadowsocksr/genv2config.lua
 wget -P ./package/lean/luci-app-ssr-plus/root/usr/share/shadowsocksr https://raw.githubusercontent.com/QiuSimons/SSR_PATCH/master/root/usr/share/shadowsocksr/genv2config.lua
-rm -f ./package/lean/luci-app-ssr-plus/root/usr/share/shadowsocksr/genconfig_v2ray_s.lua
-wget -P ./package/lean/luci-app-ssr-plus/root/usr/share/shadowsocksr https://raw.githubusercontent.com/QiuSimons/SSR_PATCH/master/root/usr/share/shadowsocksr/genconfig_v2ray_s.lua
-#VSSR依赖
+#SSRP依赖
 rm -rf ./feeds/packages/net/kcptun
-#svn co https://github.com/coolsnowwolf/lede/trunk/tools/upx tools/upx
-#svn co https://github.com/coolsnowwolf/lede/trunk/tools/ucl tools/ucl
-#sed -i 's/zip/zip ucl upx/g' tools/Makefile
 svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/shadowsocksr-libev package/lean/shadowsocksr-libev
 svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/pdnsd-alt package/lean/pdnsd
 svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/v2ray package/lean/v2ray
@@ -45,7 +38,6 @@ svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/srelay package/le
 svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/microsocks package/lean/microsocks
 svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/dns2socks package/lean/dns2socks
 svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/redsocks2 package/lean/redsocks2
-sed -i 's,$(STAGING,#$(STAGING,g' package/lean/v2ray-plugin/Makefile
 #订阅转换
 svn co https://github.com/project-openwrt/openwrt/trunk/package/ctcgfw/subconverter package/new/subconverter
 svn co https://github.com/project-openwrt/openwrt/trunk/package/ctcgfw/jpcre2 package/new/jpcre2
@@ -55,8 +47,6 @@ svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-app-ramfree 
 #打印机
 svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-app-usb-printer package/lean/luci-app-usb-printer
 #流量监视
-#git clone -b new-dev https://github.com/brvphoenix/luci-app-wrtbwmon package/lean/luci-app-wrtbwmon
-#git clone -b new-dev https://github.com/brvphoenix/wrtbwmon package/lean/wrtbwmon
 svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-app-wrtbwmon package/lean/luci-app-wrtbwmon
 #流量监管
 svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-app-netdata package/lean/luci-app-netdata
@@ -66,8 +56,6 @@ svn co https://github.com/vernesong/OpenClash/trunk/luci-app-openclash package/n
 git clone -b master --single-branch https://github.com/tty228/luci-app-serverchan package/new/luci-app-serverchan
 #SmartDNS
 svn co https://github.com/pymumu/smartdns/trunk/package/openwrt package/new/smartdns/smart-op
-#rm -f ./package/new/smartdns/smart-op/blacklist-ip.conf
-#wget -P ./package/new/smartdns/smart-op https://github.com/QiuSimons/Others/raw/master/blacklist-ip.conf
 svn co https://github.com/project-openwrt/openwrt/trunk/package/ntlf9t/luci-app-smartdns package/new/smartdns/smart-luci
 #上网APP过滤
 git clone -b master --single-branch https://github.com/destan19/OpenAppFilter package/new/OpenAppFilter
@@ -88,16 +76,9 @@ pushd target/linux/generic/hack-4.14
 wget https://github.com/coolsnowwolf/lede/raw/master/target/linux/generic/hack-4.14/952-net-conntrack-events-support-multiple-registrant.patch
 wget https://github.com/coolsnowwolf/lede/raw/master/target/linux/generic/hack-4.14/202-reduce_module_size.patch
 popd
-# X86 patch
-pushd target/linux/x86/patches-4.14
-wget https://github.com/coolsnowwolf/lede/raw/master/target/linux/x86/patches-4.14/900-x86-Enable-fast-strings-on-Intel-if-BIOS-hasn-t-already.patch
-popd
 #最大连接
 sed -i 's/16384/65536/g' package/kernel/linux/files/sysctl-nf-conntrack.conf
-#cn转Hans
-bash convert_translation.sh
 #翻译
-#git clone -b master --single-branch https://github.com/QiuSimons/addition-trans-zh-old package/lean/lean-translate
 git clone -b master --single-branch https://github.com/QiuSimons/addition-trans-zh package/lean/lean-translate
 chmod -R 755 ./
 #生成默认配置及缓存
