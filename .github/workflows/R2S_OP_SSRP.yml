@@ -33,6 +33,21 @@ jobs:
         sudo chown -R runner:runner /home/runner/work/R2S_OP_SSRP
         cd /home/runner/work/R2S_OP_SSRP/R2S_OP_SSRP
         /bin/bash 01_prepare_mixedwrt.sh
+    - name: Patch Kernel
+      run: |
+        cd friendlywrt-rk3328
+        cd kernel/ && git apply ../../add_fullconenat.diff && cd ../
+        git clone https://git.openwrt.org/openwrt/openwrt.git
+        rm openwrt/target/linux/generic/pending-5.4/403-mtd-hook-mtdsplit-to-Kbuild.patch
+        rm openwrt/target/linux/generic/hack-5.4/700-swconfig_switch_drivers.patch
+        cd openwrt/
+        ./scripts/patch-kernel.sh ../kernel target/linux/generic/backport-5.4
+        ./scripts/patch-kernel.sh ../kernel target/linux/generic/pending-5.4
+        ./scripts/patch-kernel.sh ../kernel target/linux/generic/hack-5.4
+        cd ../
+        wget https://github.com/torvalds/linux/raw/master/scripts/kconfig/merge_config.sh && chmod +x merge_config.sh
+        grep -i '_NETFILTER_\|FLOW' ../.config.override > .config.override
+        ./merge_config.sh -m .config.override kernel/arch/arm64/configs/nanopi-r2_linux_defconfig && mv .config kernel/arch/arm64/configs/nanopi-r2_linux_defconfig
     - name: Prepare Package
       run: |
         cd /home/runner/work/R2S_OP_SSRP/R2S_OP_SSRP/friendlywrt-rk3328/friendlywrt
@@ -45,9 +60,17 @@ jobs:
       run: |
         cd /home/runner/work/R2S_OP_SSRP/R2S_OP_SSRP/friendlywrt-rk3328/friendlywrt
         /bin/bash 04_remove_upx.sh
-        make defconfig
+    - name: Mods
+      run: |
+        cd friendlywrt-rk3328
+        cat configs/config_rk3328 | grep "TARGET" >> ../base_rk3328.seed
+        cat ../base_rk3328.seed > configs/config_rk3328
+        cat ../package.seed | grep "PACKAGE" >> configs/config_rk3328
+        cat configs/config_rk3328 > friendlywrt/.config
     - name: Build Mixedwrt
       run: |
+        cd /home/runner/work/R2S_OP_SSRP/R2S_OP_SSRP/friendlywrt-rk3328/friendlywrt
+        make defconfig
         cd /home/runner/work/R2S_OP_SSRP/R2S_OP_SSRP/friendlywrt-rk3328
         ./scripts/build.sh nanopi_r2s.mk
     - name: Cleaning
