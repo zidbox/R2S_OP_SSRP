@@ -23,7 +23,7 @@ jobs:
         docker rmi $(docker images -q)
         sudo -E apt-get remove -y --purge azure-cli ghc zulu* hhvm llvm* firefox google* dotnet* powershell openjdk* mysql* php*
         sudo -E apt-get update -y
-        sudo -E apt-get install -y build-essential asciidoc binutils bzip2 gawk gettext git libncurses5-dev libz-dev patch unzip zlib1g-dev lib32gcc1 libc6-dev-i386 subversion flex uglifyjs git-core gcc-multilib p7zip p7zip-full msmtp libssl-dev texinfo libglib2.0-dev xmlto qemu-utils upx libelf-dev autoconf automake libtool autopoint device-tree-compiler libreadline-dev ccache curl wget vim nano g++-multilib python python3 python-pip python3-pip python-ply python3-ply haveged lrzsz scons
+        sudo -E apt-get install -y build-essential asciidoc binutils bzip2 gawk gettext git libncurses5-dev libz-dev patch unzip zlib1g-dev lib32gcc1 libc6-dev-i386 subversion flex uglifyjs git-core gcc-multilib g++-multilib p7zip p7zip-full msmtp libssl-dev texinfo libreadline-dev libglib2.0-dev xmlto qemu-utils upx libelf-dev autoconf automake libtool autopoint ccache curl wget vim nano python python3 python-pip python3-pip python-ply python3-ply haveged lrzsz device-tree-compiler scons
         wget -O - https://raw.githubusercontent.com/friendlyarm/build-env-on-ubuntu-bionic/master/install.sh | bash
         sudo -E apt-get autoremove -y --purge
         sudo -E apt-get clean -y
@@ -60,7 +60,7 @@ jobs:
       run: |
         cd /home/runner/work/R2S_OP_SSRP/R2S_OP_SSRP/friendlywrt-rk3328/friendlywrt
         /bin/bash 04_remove_upx.sh
-    - name: Mods
+    - name: Make Config
       run: |
         cd friendlywrt-rk3328
         cat configs/config_rk3328 | grep "TARGET" >> ../base_rk3328.seed
