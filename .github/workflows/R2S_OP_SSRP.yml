@@ -72,6 +72,7 @@ jobs:
       run: |
         cd /home/runner/work/R2S_OP_SSRP/R2S_OP_SSRP/friendlywrt-rk3328/friendlywrt
         make defconfig
+        sed -i 's,NodeJS=y,NodeJS=n,g' .config
         cd /home/runner/work/R2S_OP_SSRP/R2S_OP_SSRP/friendlywrt-rk3328
         ./scripts/build.sh nanopi_r2s.mk
     - name: Cleaning
