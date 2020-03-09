@@ -31,15 +31,11 @@ jobs:
     - name: Prepare Mixedwrt
       run: |
         sudo chown -R runner:runner /home/runner/work/R2S_OP_SSRP
-        cd /home/runner/work/R2S_OP_SSRP/R2S_OP_SSRP
         /bin/bash 01_prepare_mixedwrt.sh
     - name: Patch Kernel
       run: |
         cd friendlywrt-rk3328
         git clone https://git.openwrt.org/openwrt/openwrt.git
-        cp ../xt_FULLCONENAT/xt_FULLCONENAT.c kernel/net/netfilter/xt_FULLCONENAT.c
-        cp ../xt_FULLCONENAT/ipv4-netfilter.Kconfig kernel/net/ipv4/netfilter/Kconfig
-        cp ../xt_FULLCONENAT/netfilter.Kconfig kernel/net/netfilter/Kconfig
         rm openwrt/target/linux/generic/pending-5.4/403-mtd-hook-mtdsplit-to-Kbuild.patch
         rm openwrt/target/linux/generic/hack-5.4/700-swconfig_switch_drivers.patch
         cd openwrt/
@@ -50,17 +46,23 @@ jobs:
         wget https://github.com/torvalds/linux/raw/master/scripts/kconfig/merge_config.sh && chmod +x merge_config.sh
         grep -i '_NETFILTER_\|FLOW' ../.config.override > .config.override
         ./merge_config.sh -m .config.override kernel/arch/arm64/configs/nanopi-r2_linux_defconfig && mv .config kernel/arch/arm64/configs/nanopi-r2_linux_defconfig
+    - name: FullCone Patch
+      run: |
+        cd friendlywrt-rk3328      
+        cp ../xt_FULLCONENAT/xt_FULLCONENAT.c kernel/net/netfilter/xt_FULLCONENAT.c
+        cp ../xt_FULLCONENAT/ipv4-netfilter.Kconfig kernel/net/ipv4/netfilter/Kconfig
+        cp ../xt_FULLCONENAT/netfilter.Kconfig kernel/net/netfilter/Kconfig
     - name: Prepare Package
       run: |
-        cd /home/runner/work/R2S_OP_SSRP/R2S_OP_SSRP/friendlywrt-rk3328/friendlywrt
+        cd friendlywrt-rk3328/friendlywrt
         /bin/bash 02_prepare_package.sh
     - name: Convert Translation
       run: |
-        cd /home/runner/work/R2S_OP_SSRP/R2S_OP_SSRP/friendlywrt-rk3328/friendlywrt
+        cd friendlywrt-rk3328/friendlywrt
         /bin/bash 03_convert_translation.sh
     - name: Remove Upx
       run: |
-        cd /home/runner/work/R2S_OP_SSRP/R2S_OP_SSRP/friendlywrt-rk3328/friendlywrt
+        cd friendlywrt-rk3328/friendlywrt
         /bin/bash 04_remove_upx.sh
     - name: Make Config
       run: |
@@ -74,14 +76,14 @@ jobs:
         sed -i '/CONFIG_NETFILTER_XT_TARGET_IDLETIMER/a\obj-$(CONFIG_NETFILTER_XT_TARGET_FULLCONENAT) += xt_FULLCONENAT.o' kernel/net/netfilter/Makefile
     - name: Build Mixedwrt
       run: |
-        cd /home/runner/work/R2S_OP_SSRP/R2S_OP_SSRP/friendlywrt-rk3328/friendlywrt
+        cd friendlywrt-rk3328/friendlywrt
         make defconfig
         sed -i 's,NodeJS=y,NodeJS=n,g' .config
         cd /home/runner/work/R2S_OP_SSRP/R2S_OP_SSRP/friendlywrt-rk3328
         ./scripts/build.sh nanopi_r2s.mk
     - name: Cleaning
       run: |
-        cd /home/runner/work/R2S_OP_SSRP/R2S_OP_SSRP/friendlywrt-rk3328/scripts/sd-fuse/out
+        cd friendlywrt-rk3328/scripts/sd-fuse/out
         rm -rf `ls | grep -v ".img"`
         rm -f .gitignore
     - name: Upload Firmwares
