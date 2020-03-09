@@ -37,6 +37,7 @@ jobs:
         cd friendlywrt-rk3328
         /bin/bash ../Patch.sh
         git clone https://github.com/project-openwrt/openwrt-latest.git
+        rm openwrt-latest/target/linux/generic/backport-5.4/801-v5.6-leds-populate-the-device-s-of_node.patch
         rm openwrt-latest/target/linux/generic/pending-5.4/403-mtd-hook-mtdsplit-to-Kbuild.patch
         rm openwrt-latest/target/linux/generic/hack-5.4/700-swconfig_switch_drivers.patch
         cd openwrt-latest/
