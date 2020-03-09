@@ -35,7 +35,8 @@ jobs:
     - name: Patch Kernel
       run: |
         cd friendlywrt-rk3328
-        mv ../update.patch ./ && cd kernel/ && patch -Np1 < ../update.patch
+        mv ../Patch.sh ./
+        /bin/bash patch.sh
         cd ../
         git clone https://github.com/project-openwrt/openwrt-latest.git
         rm openwrt-latest/target/linux/generic/pending-5.4/403-mtd-hook-mtdsplit-to-Kbuild.patch
