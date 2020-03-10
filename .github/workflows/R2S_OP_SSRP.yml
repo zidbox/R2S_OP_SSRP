@@ -35,14 +35,11 @@ jobs:
     - name: Patch Kernel
       run: |
         cd friendlywrt-rk3328
-        cp ../xt_FULLCONENAT/xt_FULLCONENAT.c kernel/net/netfilter/xt_FULLCONENAT.c
-        cp ../xt_FULLCONENAT/ipv4-netfilter.Kconfig kernel/net/ipv4/netfilter/Kconfig
-        cp ../xt_FULLCONENAT/netfilter.Kconfig kernel/net/netfilter/Kconfig
-        #/bin/bash ../Patch.sh
-        git clone https://github.com/project-openwrt/openwrt-latest.git
-        rm openwrt-latest/target/linux/generic/pending-5.4/403-mtd-hook-mtdsplit-to-Kbuild.patch
-        rm openwrt-latest/target/linux/generic/hack-5.4/700-swconfig_switch_drivers.patch
-        cd openwrt-latest/
+        /bin/bash ../fullcone.sh
+        git clone https://git.openwrt.org/openwrt/openwrt.git
+        rm openwrt/target/linux/generic/pending-5.4/403-mtd-hook-mtdsplit-to-Kbuild.patch
+        rm openwrt/target/linux/generic/hack-5.4/700-swconfig_switch_drivers.patch
+        cd openwrt/
         ./scripts/patch-kernel.sh ../kernel target/linux/generic/backport-5.4
         ./scripts/patch-kernel.sh ../kernel target/linux/generic/pending-5.4
         ./scripts/patch-kernel.sh ../kernel target/linux/generic/hack-5.4
@@ -71,7 +68,6 @@ jobs:
         cat ../package.seed | grep "not" >> configs/config_rk3328
         cat configs/config_rk3328 > friendlywrt/.config
         sed -i '/CONFIG_NETFILTER_XT_TARGET_HMARK/i\CONFIG_NETFILTER_XT_TARGET_FULLCONENAT=m' kernel/arch/arm64/configs/nanopi-r2_linux_defconfig
-        sed -i '/CONFIG_NETFILTER_XT_TARGET_IDLETIMER/a\obj-$(CONFIG_NETFILTER_XT_TARGET_FULLCONENAT) += xt_FULLCONENAT.o' kernel/net/netfilter/Makefile
         rm friendlywrt/target/linux/rockchip-rk3328/base-files/etc/modules.d/10-rtl8821cu
     - name: Build Mixedwrt
       run: |
