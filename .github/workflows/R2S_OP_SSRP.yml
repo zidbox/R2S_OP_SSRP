@@ -35,6 +35,9 @@ jobs:
     - name: Patch Kernel
       run: |
         cd friendlywrt-rk3328
+        cp ../xt_FULLCONENAT/xt_FULLCONENAT.c kernel/net/netfilter/xt_FULLCONENAT.c
+        cp ../xt_FULLCONENAT/ipv4-netfilter.Kconfig kernel/net/ipv4/netfilter/Kconfig
+        cp ../xt_FULLCONENAT/netfilter.Kconfig kernel/net/netfilter/Kconfig
         #/bin/bash ../Patch.sh
         git clone https://github.com/project-openwrt/openwrt-latest.git
         rm openwrt-latest/target/linux/generic/pending-5.4/403-mtd-hook-mtdsplit-to-Kbuild.patch
@@ -47,12 +50,6 @@ jobs:
         wget https://github.com/torvalds/linux/raw/master/scripts/kconfig/merge_config.sh && chmod +x merge_config.sh
         grep -i '_NETFILTER_\|FLOW' ../.config.override > .config.override
         ./merge_config.sh -m .config.override kernel/arch/arm64/configs/nanopi-r2_linux_defconfig && mv .config kernel/arch/arm64/configs/nanopi-r2_linux_defconfig
-    - name: FullCone Patch
-      run: |
-        cd friendlywrt-rk3328      
-        cp ../xt_FULLCONENAT/xt_FULLCONENAT.c kernel/net/netfilter/xt_FULLCONENAT.c
-        cp ../xt_FULLCONENAT/ipv4-netfilter.Kconfig kernel/net/ipv4/netfilter/Kconfig
-        cp ../xt_FULLCONENAT/netfilter.Kconfig kernel/net/netfilter/Kconfig
     - name: Prepare Package
       run: |
         cd friendlywrt-rk3328/friendlywrt
@@ -92,32 +89,4 @@ jobs:
       with:
         name: Firmwares
         path: /home/runner/work/R2S_OP_SSRP/R2S_OP_SSRP/friendlywrt-rk3328/scripts/sd-fuse/out
-    - name: Assemble Artifact
-      id: assemble_artifact
-      run: |
-        rm -rf ./artifact/
-        mkdir -p ./artifact/
-        mv friendlywrt-rk3328/out/*img* ./artifact/
-        zip -r artifact.zip ./artifact/
-        release_tag="R2S-OP-$(date +%Y-%m-%d)"
-        echo "##[set-output name=release_tag;]$release_tag"
-    - name: Create Release
-      id: create_release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.sec_token }}
-      with:
-        tag_name: ${{ steps.assemble_artifact.outputs.release_tag }}
-        release_name: 自动发布 ${{ steps.assemble_artifact.outputs.release_tag }}
-        draft: false
-        prerelease: false
-    - name: Upload Release Asset
-      id: upload-release-asset
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.sec_token }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
-        asset_path: ./artifact.zip
-        asset_name: ${{ steps.assemble_artifact.outputs.release_tag }}-ROM.zip
-        asset_content_type: application/zip
+ 
