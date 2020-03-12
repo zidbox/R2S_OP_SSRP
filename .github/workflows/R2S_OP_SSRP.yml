@@ -32,21 +32,6 @@ jobs:
       run: |
         sudo chown -R runner:runner /home/runner/work/R2S_OP_SSRP
         /bin/bash 01_prepare_mixedwrt.sh
-    - name: Patch Kernel
-      run: |
-        cd friendlywrt-rk3328
-        git clone https://git.openwrt.org/openwrt/openwrt.git
-        rm openwrt/target/linux/generic/pending-5.4/403-mtd-hook-mtdsplit-to-Kbuild.patch
-        rm openwrt/target/linux/generic/hack-5.4/700-swconfig_switch_drivers.patch
-        cd openwrt/
-        ./scripts/patch-kernel.sh ../kernel target/linux/generic/backport-5.4
-        ./scripts/patch-kernel.sh ../kernel target/linux/generic/pending-5.4
-        ./scripts/patch-kernel.sh ../kernel target/linux/generic/hack-5.4
-        cd ../
-        wget https://github.com/torvalds/linux/raw/master/scripts/kconfig/merge_config.sh && chmod +x merge_config.sh
-        grep -i '_NETFILTER_\|FLOW' ../.config.override > .config.override
-        ./merge_config.sh -m .config.override kernel/arch/arm64/configs/nanopi-r2_linux_defconfig && mv .config kernel/arch/arm64/configs/nanopi-r2_linux_defconfig
-        /bin/bash ../fullcone.sh
     - name: Prepare Package
       run: |
         cd friendlywrt-rk3328/friendlywrt
@@ -59,6 +44,19 @@ jobs:
       run: |
         cd friendlywrt-rk3328/friendlywrt
         /bin/bash 04_remove_upx.sh
+    - name: Patch Kernel
+      run: |
+        cd friendlywrt-rk3328
+        /bin/bash ../fullcone.sh
+        git clone https://git.openwrt.org/openwrt/openwrt.git
+        rm openwrt/target/linux/generic/pending-5.4/403-mtd-hook-mtdsplit-to-Kbuild.patch
+        rm openwrt/target/linux/generic/hack-5.4/700-swconfig_switch_drivers.patch
+        friendlywrt/scripts/patch-kernel.sh kernel openwrt/target/linux/generic/backport-5.4
+        friendlywrt/scripts/patch-kernel.sh kernel openwrt/target/linux/generic/pending-5.4
+        friendlywrt/scripts/patch-kernel.sh kernel openwrt/target/linux/generic/hack-5.4
+        wget https://github.com/torvalds/linux/raw/master/scripts/kconfig/merge_config.sh && chmod +x merge_config.sh
+        grep -i '_NETFILTER_\|FLOW' ../.config.override > .config.override
+        ./merge_config.sh -m .config.override kernel/arch/arm64/configs/nanopi-r2_linux_defconfig && mv .config kernel/arch/arm64/configs/nanopi-r2_linux_defconfig
     - name: Make Config
       run: |
         cd friendlywrt-rk3328
