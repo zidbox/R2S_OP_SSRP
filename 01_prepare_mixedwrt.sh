@@ -5,7 +5,7 @@ cp -r ./R2S_TMP/. ./R2S_PATCH
 mkdir friendlywrt-rk3328
 pushd friendlywrt-rk3328
 repo init -u https://github.com/friendlyarm/friendlywrt_manifests -b master-v19.07.1 -m rk3328.xml --repo-url=https://github.com/friendlyarm/repo  --no-clone-bundle
-repo sync -c  --no-clone-bundle
+repo sync -c  --no-clone-bundle -j8
 popd
 pushd friendlywrt-rk3328/friendlywrt
 shopt -s extglob 
