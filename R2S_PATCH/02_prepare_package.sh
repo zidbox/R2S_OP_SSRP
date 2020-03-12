@@ -25,6 +25,8 @@ rm -f ./package/lean/luci-app-ssr-plus/luasrc/model/cbi/shadowsocksr/client.lua
 wget -P ./package/lean/luci-app-ssr-plus/luasrc/model/cbi/shadowsocksr https://raw.githubusercontent.com/QiuSimons/SSR_PATCH/master/luasrc/model/cbi/shadowsocksr/client.lua
 rm -f ./package/lean/luci-app-ssr-plus/root/usr/share/shadowsocksr/genv2config.lua
 wget -P ./package/lean/luci-app-ssr-plus/root/usr/share/shadowsocksr https://raw.githubusercontent.com/QiuSimons/SSR_PATCH/master/root/usr/share/shadowsocksr/genv2config.lua
+rm -f ./package/lean/luci-app-ssr-plus/root/usr/share/shadowsocksr/subscribe.lua
+wget -P ./package/lean/luci-app-ssr-plus/root/usr/share/shadowsocksr https://raw.githubusercontent.com/QiuSimons/SSR_PATCH/master/root/usr/share/shadowsocksr/subscribe.lua
 #SSRP依赖
 rm -rf ./feeds/packages/net/kcptun
 svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/shadowsocksr-libev package/lean/shadowsocksr-libev
