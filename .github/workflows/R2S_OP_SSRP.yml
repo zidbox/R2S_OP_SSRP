@@ -63,6 +63,7 @@ jobs:
         cd friendlywrt-rk3328
         cat configs/config_rk3328 | grep "TARGET" >> ../base_rk3328.seed
         cat ../base_rk3328.seed > configs/config_rk3328
+        cat ../package.seed | grep "OPENSSL" >> configs/config_rk3328
         cat ../package.seed | grep "PACKAGE" >> configs/config_rk3328
         cat ../package.seed | grep "not" >> configs/config_rk3328
         cat configs/config_rk3328 > friendlywrt/.config
