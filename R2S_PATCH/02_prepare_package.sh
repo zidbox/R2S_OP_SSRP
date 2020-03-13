@@ -87,4 +87,6 @@ chmod -R 755 ./
 #生成默认配置及缓存
 rm -rf .config
 mv R2.config .config
+#修正架构
+sed -i "s,boardinfo.system,'ARMv8',g" feeds/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/10_system.js
 exit 0
