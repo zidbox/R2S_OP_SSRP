@@ -4,6 +4,9 @@ clear
 #RPCD依赖
 rm -rf ./package/system/rpcd
 svn co https://github.com/openwrt/openwrt/branches/openwrt-19.07/package/system/rpcd package/system/rpcd
+#AutoCore
+svn co https://github.com/project-openwrt/openwrt-19.07/trunk/package/lean/autocore package/lean/autocore
+svn co https://github.com/project-openwrt/openwrt-19.07/trunk/package/lean/coremark package/lean/coremark
 #网易云解锁
 svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/UnblockNeteaseMusicGo package/lean/UnblockNeteaseMusicGo
 svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-app-unblockmusic package/lean/luci-app-unblockmusic
