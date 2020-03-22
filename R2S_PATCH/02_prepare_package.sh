@@ -40,6 +40,7 @@ svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/srelay package/le
 svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/microsocks package/lean/microsocks
 svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/dns2socks package/lean/dns2socks
 svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/redsocks2 package/lean/redsocks2
+svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/tcpping package/lean/tcpping
 #订阅转换
 svn co https://github.com/project-openwrt/openwrt/trunk/package/ctcgfw/subconverter package/new/subconverter
 svn co https://github.com/project-openwrt/openwrt/trunk/package/ctcgfw/jpcre2 package/new/jpcre2
