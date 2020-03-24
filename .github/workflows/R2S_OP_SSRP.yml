@@ -47,28 +47,16 @@ jobs:
     - name: Patch Kernel
       run: |
         cd friendlywrt-rk3328
-        /bin/bash ../fullcone.sh
-        git clone https://git.openwrt.org/openwrt/openwrt.git
-        rm openwrt/target/linux/generic/pending-5.4/403-mtd-hook-mtdsplit-to-Kbuild.patch
-        rm openwrt/target/linux/generic/hack-5.4/700-swconfig_switch_drivers.patch
-        rm openwrt/target/linux/generic/hack-5.4/650-netfilter-add-xt_OFFLOAD-target.patch
-        friendlywrt/scripts/patch-kernel.sh kernel openwrt/target/linux/generic/backport-5.4
-        friendlywrt/scripts/patch-kernel.sh kernel openwrt/target/linux/generic/pending-5.4
-        friendlywrt/scripts/patch-kernel.sh kernel openwrt/target/linux/generic/hack-5.4
-        wget https://github.com/torvalds/linux/raw/master/scripts/kconfig/merge_config.sh && chmod +x merge_config.sh
-        grep -i '_NETFILTER_\|FLOW' ../.config.override > .config.override
-        ./merge_config.sh -m .config.override kernel/arch/arm64/configs/nanopi-r2_linux_defconfig && mv .config kernel/arch/arm64/configs/nanopi-r2_linux_defconfig
+        /bin/bash 05_patch_kernel.sh
     - name: Make Config
       run: |
         cd friendlywrt-rk3328
         cat configs/config_rk3328 | grep "TARGET" >> ../base_rk3328.seed
+        cat ../package.seed | grep "OPENSSL" >> ../base_rk3328.seed
+        cat ../package.seed | grep "PACKAGE" >> ../base_rk3328.seed
+        cat ../package.seed | grep "not" >> ../base_rk3328.seed
         cat ../base_rk3328.seed > configs/config_rk3328
-        cat ../package.seed | grep "OPENSSL" >> configs/config_rk3328
-        cat ../package.seed | grep "PACKAGE" >> configs/config_rk3328
-        cat ../package.seed | grep "not" >> configs/config_rk3328
-        cat configs/config_rk3328 > friendlywrt/.config
-        #sed -i '/CONFIG_NETFILTER_XT_TARGET_HMARK/i\CONFIG_NETFILTER_XT_TARGET_FULLCONENAT=m' kernel/arch/arm64/configs/nanopi-r2_linux_defconfig
-        #rm friendlywrt/target/linux/rockchip-rk3328/base-files/etc/modules.d/10-rtl8821cu
+        cat ../base_rk3328.seed > friendlywrt/.config
     - name: Build Mixedwrt
       run: |
         cd friendlywrt-rk3328/friendlywrt
