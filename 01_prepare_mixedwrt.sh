@@ -20,6 +20,7 @@ wget -P friendlywrt-rk3328/friendlywrt/ https://raw.githubusercontent.com/openwr
 rm -f ${latest_release}
 rm -rf ./R2S_PATCH/.git
 cp -rf ./R2S_PATCH/. ./friendlywrt-rk3328/friendlywrt/
+cp -f ./R2S_PATCH/05_patch_kernel.sh ./friendlywrt-rk3328/05_patch_kernel.sh
 cd friendlywrt-rk3328
 sed -i 's,./scripts,#./scripts,g' scripts/mk-friendlywrt.sh
 sed -i 's,CONFIG_BPFILTER=y,CONFIG_BPFILTER=n,g' kernel/arch/arm64/configs/nanopi-r2_linux_defconfig
