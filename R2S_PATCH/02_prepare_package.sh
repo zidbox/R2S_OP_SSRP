@@ -8,10 +8,11 @@ svn co https://github.com/openwrt/openwrt/branches/openwrt-19.07/package/system/
 svn co https://github.com/project-openwrt/openwrt-19.07/trunk/package/lean/autocore package/lean/autocore
 svn co https://github.com/project-openwrt/openwrt-19.07/trunk/package/lean/coremark package/lean/coremark
 #网易云解锁
-svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/UnblockNeteaseMusicGo package/lean/UnblockNeteaseMusicGo
-svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-app-unblockmusic package/lean/luci-app-unblockmusic
-sed -i "s,+UnblockNeteaseMusic_NodeJS:UnblockNeteaseMusic ,,g" package/lean/luci-app-unblockmusic/Makefile
-svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-lib-fs package/lean/luci-lib-fs
+#svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/UnblockNeteaseMusicGo package/lean/UnblockNeteaseMusicGo
+#svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-app-unblockmusic package/lean/luci-app-unblockmusic
+#sed -i "s,+UnblockNeteaseMusic_NodeJS:UnblockNeteaseMusic ,,g" package/lean/luci-app-unblockmusic/Makefile
+git clone -b master --single-branch https://github.com/cnsilvan/UnblockNeteaseMusic package/new/UnblockNeteaseMusic
+git clone -b master --single-branch https://github.com/cnsilvan/luci-app-unblockneteasemusic package/new/luci-app-unblockneteasemusi
 #irqbalance
 sed -i 's/0/1/g' feeds/packages/utils/irqbalance/files/irqbalance.config
 #定时重启
@@ -51,7 +52,9 @@ svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-app-ramfree 
 #打印机
 svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-app-usb-printer package/lean/luci-app-usb-printer
 #流量监视
-svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-app-wrtbwmon package/lean/luci-app-wrtbwmon
+#svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-app-wrtbwmon package/lean/luci-app-wrtbwmon
+svn co https://github.com/brvphoenix/luci-app-wrtbwmon/trunk/luci-app-wrtbwmon package/new/luci-app-wrtbwmon
+svn co https://github.com/brvphoenix/wrtbwmon/trunk/wrtbwmon package/new/wrtbwmon
 #流量监管
 svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-app-netdata package/lean/luci-app-netdata
 #OpenClash
