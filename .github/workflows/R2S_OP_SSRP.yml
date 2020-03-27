@@ -58,7 +58,6 @@ jobs:
     - name: Build Mixedwrt
       run: |
         cd friendlywrt-rk3328/friendlywrt
-        sed -i 's/option fullcone\t1/option fullcone\t0/' package/network/config/firewall/files/firewall.config
         make defconfig
         sed -i 's,NodeJS=y,NodeJS=n,g' .config
         cd /home/runner/work/R2S_OP_SSRP/R2S_OP_SSRP/friendlywrt-rk3328
