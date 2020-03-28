@@ -11,8 +11,9 @@ friendlywrt/scripts/patch-kernel.sh kernel openwrt/target/linux/generic/pending-
 friendlywrt/scripts/patch-kernel.sh kernel openwrt/target/linux/generic/hack-5.4
 bash ../fullcone.sh
 wget https://github.com/torvalds/linux/raw/master/scripts/kconfig/merge_config.sh && chmod +x merge_config.sh
+grep -i '_NETFILTER_\|FLOW' ../.config.override > .config.override
+./merge_config.sh -m .config.override kernel/arch/arm64/configs/nanopi-r2_linux_defconfig && mv .config kernel/arch/arm64/configs/nanopi-r2_linux_defconfig
 sed -i -r 's/# (CONFIG_.*_ERRATUM_.*?) is.*/\1=y/g' kernel/arch/arm64/configs/nanopi-r2_linux_defconfig
-echo "CONFIG_NETFILTER_XT_TARGET_FLOWOFFLOAD=y" >> kernel/arch/arm64/configs/nanopi-r2_linux_defconfig
 sed -i 's/CONFIG_BPFILTER=y/CONFIG_BPFILTER=n/' kernel/arch/arm64/configs/nanopi-r2_linux_defconfig
 sed -i 's/CONFIG_NFT_FLOW_OFFLOAD=m/CONFIG_NFT_FLOW_OFFLOAD=y/' kernel/arch/arm64/configs/nanopi-r2_linux_defconfig
-./merge_config.sh -m .config.override kernel/arch/arm64/configs/nanopi-r2_linux_defconfig && mv .config kernel/arch/arm64/configs/nanopi-r2_linux_defconfig
+echo "CONFIG_NETFILTER_XT_TARGET_FLOWOFFLOAD=y" >> kernel/arch/arm64/configs/nanopi-r2_linux_defconfig
