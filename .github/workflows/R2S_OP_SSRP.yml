@@ -52,14 +52,12 @@ jobs:
       run: |
         cd friendlywrt-rk3328
         cat configs/config_rk3328 | grep "TARGET" >> ../base_rk3328.seed
-        cat ../package.seed >> ../base_rk3328.seed
         cat ../base_rk3328.seed > configs/config_rk3328
         cat ../base_rk3328.seed > friendlywrt/.config
     - name: Build Mixedwrt
       run: |
         cd friendlywrt-rk3328/friendlywrt
         make defconfig
-        sed -i 's,NodeJS=y,NodeJS=n,g' .config
         cd /home/runner/work/R2S_OP_SSRP/R2S_OP_SSRP/friendlywrt-rk3328
         ./scripts/build.sh nanopi_r2s.mk
     - name: Cleaning
