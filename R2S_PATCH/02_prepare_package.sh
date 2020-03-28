@@ -6,6 +6,7 @@ rm -rf ./package/system/rpcd
 svn co https://github.com/openwrt/openwrt/branches/openwrt-19.07/package/system/rpcd package/system/rpcd
 #AutoCore
 svn co https://github.com/project-openwrt/openwrt-19.07/trunk/package/lean/autocore package/lean/autocore
+sed -i "s,@TARGET_x86 ,,g" package/lean/autocore/Makefile
 svn co https://github.com/project-openwrt/openwrt-19.07/trunk/package/lean/coremark package/lean/coremark
 #网易云解锁
 svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/UnblockNeteaseMusicGo package/lean/UnblockNeteaseMusicGo
@@ -93,4 +94,5 @@ rm -rf .config
 #mv R2.config .config
 #修正架构
 sed -i "s,boardinfo.system,'ARMv8',g" feeds/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/10_system.js
+mv ../../scripts/check_wan4.sh package/base-files/files/usr/bin && sed -i '/exit/i\/bin/sh /usr/bin/check_wan4.sh &' package/base-files/files/etc/rc.local
 exit 0
