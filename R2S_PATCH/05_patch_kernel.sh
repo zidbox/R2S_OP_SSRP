@@ -16,4 +16,4 @@ grep -i '_NETFILTER_\|FLOW' ../.config.override > .config.override
 sed -i -r 's/# (CONFIG_.*_ERRATUM_.*?) is.*/\1=y/g' kernel/arch/arm64/configs/nanopi-r2_linux_defconfig
 sed -i 's/CONFIG_BPFILTER=y/CONFIG_BPFILTER=n/' kernel/arch/arm64/configs/nanopi-r2_linux_defconfig
 sed -i 's/CONFIG_NFT_FLOW_OFFLOAD=m/CONFIG_NFT_FLOW_OFFLOAD=y/' kernel/arch/arm64/configs/nanopi-r2_linux_defconfig
-echo "CONFIG_NETFILTER_XT_TARGET_FLOWOFFLOAD=y" >> kernel/arch/arm64/configs/nanopi-r2_linux_defconfig
+echo "CONFIG_NETFILTER_XT_TARGET_FLOWOFFLOAD=m" >> kernel/arch/arm64/configs/nanopi-r2_linux_defconfig
