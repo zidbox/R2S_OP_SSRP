@@ -9,6 +9,8 @@ svn co https://github.com/project-openwrt/openwrt-19.07/trunk/package/lean/autoc
 sed -i "s,@TARGET_x86 ,,g" package/lean/autocore/Makefile
 rm -rf ./package/lean/autocore/files/cpuinfo
 wget -P package/lean/autocore/files https://raw.githubusercontent.com/QiuSimons/Others/master/cpuinfo
+rm -rf ./package/lean/autocore/files/rpcd_10_system.js
+wget -P package/lean/autocore/files https://raw.githubusercontent.com/QiuSimons/Others/master/rpcd_10_system.js
 svn co https://github.com/project-openwrt/openwrt-19.07/trunk/package/lean/coremark package/lean/coremark
 #网易云解锁
 svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/UnblockNeteaseMusicGo package/lean/UnblockNeteaseMusicGo
