@@ -98,6 +98,6 @@ rm -rf .config
 #mv R2.config .config
 #修正架构
 sed -i "s,boardinfo.system,'ARMv8',g" feeds/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/10_system.js
-mv ../../scripts/check_wan4.sh package/base-files/files/usr/bin && sed -i '/exit/i\/bin/sh /usr/bin/check_wan4.sh &' package/base-files/files/etc/rc.local
+#mv ../../scripts/check_wan4.sh package/base-files/files/usr/bin && sed -i '/exit/i\/bin/sh /usr/bin/check_wan4.sh &' package/base-files/files/etc/rc.local
 mv ../../scripts/fullcone.sh package/base-files/files/usr/bin && sed -i '/exit/i\/bin/sh /usr/bin/fullcone.sh &' package/base-files/files/etc/rc.local
 exit 0
