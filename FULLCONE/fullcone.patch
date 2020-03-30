@@ -1,88 +1,6 @@
-diff -rNEZbwBdu2 old/include/net/netfilter/nf_conntrack_ecache.h new/include/net/netfilter/nf_conntrack_ecache.h
---- old/include/net/netfilter/nf_conntrack_ecache.h	2020-02-27 14:09:09.000000000 +0800
-+++ new/include/net/netfilter/nf_conntrack_ecache.h	2020-03-10 21:28:03.046295383 +0800
-@@ -73,4 +73,8 @@
- };
- 
-+#ifdef CONFIG_NF_CONNTRACK_CHAIN_EVENTS
-+extern int nf_conntrack_register_notifier(struct net *net, struct notifier_block *nb);
-+extern int nf_conntrack_unregister_notifier(struct net *net, struct notifier_block *nb);
-+#else
- struct nf_ct_event_notifier {
- 	int (*fcn)(unsigned int events, struct nf_ct_event *item);
-@@ -81,5 +85,5 @@
- void nf_conntrack_unregister_notifier(struct net *net,
- 				      struct nf_ct_event_notifier *nb);
--
-+#endif
- void nf_ct_deliver_cached_events(struct nf_conn *ct);
- int nf_conntrack_eventmask_report(unsigned int eventmask, struct nf_conn *ct,
-@@ -106,10 +110,13 @@
- {
- #ifdef CONFIG_NF_CONNTRACK_EVENTS
--	struct net *net = nf_ct_net(ct);
- 	struct nf_conntrack_ecache *e;
-+#ifndef CONFIG_NF_CONNTRACK_CHAIN_EVENTS
-+	struct net *net = nf_ct_net(ct);
- 
- 	if (!rcu_access_pointer(net->ct.nf_conntrack_event_cb))
- 		return;
- 
-+#endif
-+
- 	e = nf_ct_ecache_find(ct);
- 	if (e == NULL)
-@@ -124,14 +131,12 @@
- 			  u32 portid, int report)
- {
--#ifdef CONFIG_NF_CONNTRACK_EVENTS
-+#ifndef CONFIG_NF_CONNTRACK_CHAIN_EVENTS
- 	const struct net *net = nf_ct_net(ct);
- 
- 	if (!rcu_access_pointer(net->ct.nf_conntrack_event_cb))
- 		return 0;
-+#endif
- 
- 	return nf_conntrack_eventmask_report(1 << event, ct, portid, report);
--#else
--	return 0;
--#endif
- }
- 
-@@ -139,5 +144,5 @@
- nf_conntrack_event(enum ip_conntrack_events event, struct nf_conn *ct)
- {
--#ifdef CONFIG_NF_CONNTRACK_EVENTS
-+#ifndef CONFIG_NF_CONNTRACK_CHAIN_EVENTS
- 	const struct net *net = nf_ct_net(ct);
- 
-@@ -145,8 +150,7 @@
- 		return 0;
- 
--	return nf_conntrack_eventmask_report(1 << event, ct, 0, 0);
--#else
--	return 0;
- #endif
-+
-+ 	return nf_conntrack_eventmask_report(1 << event, ct, 0, 0);
- }
- 
-diff -rNEZbwBdu2 old/include/net/netns/conntrack.h new/include/net/netns/conntrack.h
---- old/include/net/netns/conntrack.h	2020-02-27 14:09:09.000000000 +0800
-+++ new/include/net/netns/conntrack.h	2020-03-10 21:28:03.046295383 +0800
-@@ -113,5 +113,9 @@
- 	struct ct_pcpu __percpu *pcpu_lists;
- 	struct ip_conntrack_stat __percpu *stat;
-+#ifdef CONFIG_NF_CONNTRACK_CHAIN_EVENTS
-+	struct atomic_notifier_head nf_conntrack_chain;
-+#else
- 	struct nf_ct_event_notifier __rcu *nf_conntrack_event_cb;
-+#endif
- 	struct nf_exp_event_notifier __rcu *nf_expect_event_cb;
- 	struct nf_ip_net	nf_ct_proto;
 diff -rNEZbwBdu2 old/net/ipv4/netfilter/Kconfig new/net/ipv4/netfilter/Kconfig
---- old/net/ipv4/netfilter/Kconfig	2020-02-27 14:09:09.000000000 +0800
-+++ new/net/ipv4/netfilter/Kconfig	2020-03-10 21:12:02.327944520 +0800
+--- old/net/ipv4/netfilter/Kconfig	2020-03-30 15:02:17.291874143 +0800
++++ new/net/ipv4/netfilter/Kconfig	2020-03-30 15:12:05.747463558 +0800
 @@ -240,4 +240,13 @@
  	CONFIG_NETFILTER_XT_TARGET_NETMAP.
  
@@ -98,25 +16,11 @@ diff -rNEZbwBdu2 old/net/ipv4/netfilter/Kconfig new/net/ipv4/netfilter/Kconfig
  config IP_NF_TARGET_REDIRECT
  	tristate "REDIRECT target support"
 diff -rNEZbwBdu2 old/net/netfilter/Kconfig new/net/netfilter/Kconfig
---- old/net/netfilter/Kconfig	2020-02-27 14:09:09.000000000 +0800
-+++ new/net/netfilter/Kconfig	2020-03-10 21:28:03.046295383 +0800
-@@ -137,4 +137,12 @@
- 	  If unsure, say `N'.
- 
-+config NF_CONNTRACK_CHAIN_EVENTS
-+	bool "Register multiple callbacks to ct events"
-+	depends on NF_CONNTRACK_EVENTS
-+	help
-+	  Support multiple registrations.
-+
-+	  If unsure, say `N'.
-+
- config NF_CONNTRACK_TIMEOUT
- 	bool  'Connection tracking timeout'
-@@ -956,4 +964,12 @@
- 
+--- old/net/netfilter/Kconfig	2020-03-30 15:02:17.343873958 +0800
++++ new/net/netfilter/Kconfig	2020-03-30 15:11:26.969635937 +0800
+@@ -957,4 +957,12 @@
  	To compile it as a module, choose M here. If unsure, say N.
-+
+ 
 +config NETFILTER_XT_TARGET_FULLCONENAT
 +	tristate '"FULLCONENAT" target support'
 +	depends on NF_NAT
@@ -124,211 +28,18 @@ diff -rNEZbwBdu2 old/net/netfilter/Kconfig new/net/netfilter/Kconfig
 +	Full Cone NAT
 +
 +	To compile it as a module, choose M here. If unsure, say N.
- 
++
  config NETFILTER_XT_TARGET_NFLOG
+ 	tristate '"NFLOG" target support'
 diff -rNEZbwBdu2 old/net/netfilter/Makefile new/net/netfilter/Makefile
---- old/net/netfilter/Makefile	2020-02-27 14:09:09.000000000 +0800
-+++ new/net/netfilter/Makefile	2020-03-10 21:09:56.207336700 +0800
+--- old/net/netfilter/Makefile	2020-03-30 15:02:17.343873958 +0800
++++ new/net/netfilter/Makefile	2020-03-30 15:08:50.564316702 +0800
 @@ -141,4 +141,5 @@
  obj-$(CONFIG_NETFILTER_XT_TARGET_CT) += xt_CT.o
  obj-$(CONFIG_NETFILTER_XT_TARGET_DSCP) += xt_DSCP.o
 +obj-$(CONFIG_NETFILTER_XT_TARGET_FULLCONENAT) += xt_FULLCONENAT.o
  obj-$(CONFIG_NETFILTER_XT_TARGET_HL) += xt_HL.o
  obj-$(CONFIG_NETFILTER_XT_TARGET_HMARK) += xt_HMARK.o
-diff -rNEZbwBdu2 old/net/netfilter/nf_conntrack_core.c new/net/netfilter/nf_conntrack_core.c
---- old/net/netfilter/nf_conntrack_core.c	2020-02-27 14:09:09.000000000 +0800
-+++ new/net/netfilter/nf_conntrack_core.c	2020-03-10 21:28:03.046295383 +0800
-@@ -2538,4 +2538,7 @@
- 	nf_conntrack_proto_pernet_init(net);
- 
-+#ifdef CONFIG_NF_CONNTRACK_CHAIN_EVENTS
-+	ATOMIC_INIT_NOTIFIER_HEAD(&net->ct.nf_conntrack_chain);
-+#endif
- 	return 0;
- 
-diff -rNEZbwBdu2 old/net/netfilter/nf_conntrack_ecache.c new/net/netfilter/nf_conntrack_ecache.c
---- old/net/netfilter/nf_conntrack_ecache.c	2020-02-27 14:09:09.000000000 +0800
-+++ new/net/netfilter/nf_conntrack_ecache.c	2020-03-10 21:28:03.046295383 +0800
-@@ -18,4 +18,7 @@
- #include <linux/err.h>
- #include <linux/percpu.h>
-+#ifdef CONFIG_NF_CONNTRACK_CHAIN_EVENTS
-+#include <linux/notifier.h>
-+#endif
- #include <linux/kernel.h>
- #include <linux/netdevice.h>
-@@ -118,4 +121,36 @@
- }
- 
-+#ifdef CONFIG_NF_CONNTRACK_CHAIN_EVENTS
-+int
-+nf_conntrack_eventmask_report(unsigned int eventmask,
-+			      struct nf_conn *ct,
-+			      u32 portid,
-+			      int report)
-+{
-+	struct nf_conntrack_ecache *e;
-+	struct net *net = nf_ct_net(ct);
-+
-+	e = nf_ct_ecache_find(ct);
-+	if (e == NULL)
-+		return 0;
-+
-+	if (nf_ct_is_confirmed(ct)) {
-+		struct nf_ct_event item = {
-+			.ct = ct,
-+			.portid	= e->portid ? e->portid : portid,
-+			.report = report
-+		};
-+		/* This is a resent of a destroy event? If so, skip missed */
-+		unsigned long missed = e->portid ? 0 : e->missed;
-+
-+		if (!((eventmask | missed) & e->ctmask))
-+			return 0;
-+
-+		atomic_notifier_call_chain(&net->ct.nf_conntrack_chain, eventmask | missed, &item);
-+	}
-+
-+	return 0;
-+}
-+#else
- int nf_conntrack_eventmask_report(unsigned int eventmask, struct nf_conn *ct,
- 				  u32 portid, int report)
-@@ -172,8 +207,50 @@
- 	return ret;
- }
-+#endif
- EXPORT_SYMBOL_GPL(nf_conntrack_eventmask_report);
- 
- /* deliver cached events and clear cache entry - must be called with locally
-  * disabled softirqs */
-+#ifdef CONFIG_NF_CONNTRACK_CHAIN_EVENTS
-+void nf_ct_deliver_cached_events(struct nf_conn *ct)
-+{
-+	unsigned long events, missed;
-+	struct nf_conntrack_ecache *e;
-+	struct nf_ct_event item;
-+	struct net *net = nf_ct_net(ct);
-+
-+	e = nf_ct_ecache_find(ct);
-+	if (e == NULL)
-+		return;
-+
-+	events = xchg(&e->cache, 0);
-+
-+	if (!nf_ct_is_confirmed(ct) || nf_ct_is_dying(ct) || !events)
-+		return;
-+
-+	/* We make a copy of the missed event cache without taking
-+	 * the lock, thus we may send missed events twice. However,
-+	 * this does not harm and it happens very rarely. */
-+	missed = e->missed;
-+
-+	if (!((events | missed) & e->ctmask))
-+		return;
-+
-+	item.ct = ct;
-+	item.portid = 0;
-+	item.report = 0;
-+
-+	atomic_notifier_call_chain(&net->ct.nf_conntrack_chain,
-+			events | missed,
-+			&item);
-+
-+	if (likely(!missed))
-+		return;
-+
-+	spin_lock_bh(&ct->lock);
-+		e->missed &= ~missed;
-+	spin_unlock_bh(&ct->lock);
-+}
-+#else
- void nf_ct_deliver_cached_events(struct nf_conn *ct)
- {
-@@ -226,4 +303,5 @@
- 	rcu_read_unlock();
- }
-+#endif
- EXPORT_SYMBOL_GPL(nf_ct_deliver_cached_events);
- 
-@@ -258,4 +336,10 @@
- }
- 
-+#ifdef CONFIG_NF_CONNTRACK_CHAIN_EVENTS
-+int nf_conntrack_register_notifier(struct net *net, struct notifier_block *nb)
-+{
-+        return atomic_notifier_chain_register(&net->ct.nf_conntrack_chain, nb);
-+}
-+#else
- int nf_conntrack_register_notifier(struct net *net,
- 				   struct nf_ct_event_notifier *new)
-@@ -278,6 +362,13 @@
- 	return ret;
- }
-+#endif
- EXPORT_SYMBOL_GPL(nf_conntrack_register_notifier);
- 
-+#ifdef CONFIG_NF_CONNTRACK_CHAIN_EVENTS
-+int nf_conntrack_unregister_notifier(struct net *net, struct notifier_block *nb)
-+{
-+	return atomic_notifier_chain_unregister(&net->ct.nf_conntrack_chain, nb);
-+}
-+#else
- void nf_conntrack_unregister_notifier(struct net *net,
- 				      struct nf_ct_event_notifier *new)
-@@ -293,4 +384,5 @@
- 	/* synchronize_rcu() is called from ctnetlink_exit. */
- }
-+#endif
- EXPORT_SYMBOL_GPL(nf_conntrack_unregister_notifier);
- 
-diff -rNEZbwBdu2 old/net/netfilter/nf_conntrack_netlink.c new/net/netfilter/nf_conntrack_netlink.c
---- old/net/netfilter/nf_conntrack_netlink.c	2020-02-27 14:09:09.000000000 +0800
-+++ new/net/netfilter/nf_conntrack_netlink.c	2020-03-10 21:28:03.050295415 +0800
-@@ -29,4 +29,9 @@
- #include <linux/spinlock.h>
- #include <linux/interrupt.h>
-+
-+#ifdef CONFIG_NF_CONNTRACK_CHAIN_EVENTS
-+#include <linux/notifier.h>
-+#endif
-+
- #include <linux/slab.h>
- #include <linux/siphash.h>
-@@ -677,6 +682,11 @@
- }
- 
-+#ifdef CONFIG_NF_CONNTRACK_CHAIN_EVENTS
-+static int ctnetlink_conntrack_event(struct notifier_block *this,
-+                           unsigned long events, void *ptr)
-+#else
- static int
- ctnetlink_conntrack_event(unsigned int events, struct nf_ct_event *item)
-+#endif
- {
- 	const struct nf_conntrack_zone *zone;
-@@ -685,4 +695,7 @@
- 	struct nfgenmsg *nfmsg;
- 	struct nlattr *nest_parms;
-+#ifdef CONFIG_NF_CONNTRACK_CHAIN_EVENTS
-+	struct nf_ct_event *item = (struct nf_ct_event *)ptr;
-+#endif
- 	struct nf_conn *ct = item->ct;
- 	struct sk_buff *skb;
-@@ -3503,7 +3516,13 @@
- 
- #ifdef CONFIG_NF_CONNTRACK_EVENTS
-+#ifdef CONFIG_NF_CONNTRACK_CHAIN_EVENTS
-+static struct notifier_block ctnl_notifier = {
-+	.notifier_call = ctnetlink_conntrack_event,
-+};
-+#else
- static struct nf_ct_event_notifier ctnl_notifier = {
- 	.fcn = ctnetlink_conntrack_event,
- };
-+#endif
- 
- static struct nf_exp_event_notifier ctnl_notifier_exp = {
 diff -rNEZbwBdu2 old/net/netfilter/xt_FULLCONENAT.c new/net/netfilter/xt_FULLCONENAT.c
 --- old/net/netfilter/xt_FULLCONENAT.c	1970-01-01 08:00:00.000000000 +0800
 +++ new/net/netfilter/xt_FULLCONENAT.c	2019-10-21 00:10:31.000000000 +0800
@@ -1037,11 +748,9 @@ diff -rNEZbwBdu2 old/net/netfilter/xt_FULLCONENAT.c new/net/netfilter/xt_FULLCON
 +
 +static int __init fullconenat_tg_init(void)
 +{
-+  printk(KERN_INFO "xt_FULLCONENAT: RFC3489 Full Cone NAT module\n"
-+	"xt_FULLCONENAT: Copyright (C) 2018 Chion Tang <tech@chionlab.moe>\n");
 +  wq = create_singlethread_workqueue("xt_FULLCONENAT");
 +  if (wq == NULL) {
-+    printk(KERN_WARNING "xt_FULLCONENAT: warning: failed to create workqueue\n");
++    printk("xt_FULLCONENAT: warning: failed to create workqueue\n");
 +  }
 +
 +  return xt_register_targets(tg_reg, ARRAY_SIZE(tg_reg));
