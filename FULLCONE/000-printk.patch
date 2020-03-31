@@ -1,0 +1,16 @@
+diff -rNEZbwBdu2 old/net/netfilter/xt_FULLCONENAT.c new/net/netfilter/xt_FULLCONENAT.c
+--- old/net/netfilter/xt_FULLCONENAT.c	1970-01-01 08:00:00.000000000 +0800
++++ new/net/netfilter/xt_FULLCONENAT.c	2019-10-21 00:10:31.000000000 +0800
+@@ -697,9 +697,11 @@ static struct xt_target tg_reg[] __read_mostly = {
+ 
+ static int __init fullconenat_tg_init(void)
+ {
++  printk(KERN_INFO "xt_FULLCONENAT: RFC3489 Full Cone NAT module\n"
++	"xt_FULLCONENAT: Copyright (C) 2018 Chion Tang <tech@chionlab.moe>\n");
+   wq = create_singlethread_workqueue("xt_FULLCONENAT");
+   if (wq == NULL) {
+-    printk("xt_FULLCONENAT: warning: failed to create workqueue\n");
++    printk(KERN_WARNING "xt_FULLCONENAT: warning: failed to create workqueue\n");
+   }
+ 
+   return xt_register_targets(tg_reg, ARRAY_SIZE(tg_reg));
