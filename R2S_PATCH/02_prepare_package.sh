@@ -29,9 +29,6 @@ git clone -b master --single-branch https://github.com/QiuSimons/Luci-argon-19 p
 git clone -b master --single-branch https://github.com/rufengsuixing/luci-app-adguardhome package/new/luci-app-adguardhome
 #SSRP
 svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-app-ssr-plus package/lean/luci-app-ssr-plus
-sed -i 's,mux = 1,mux = 0,g' package/lean/luci-app-ssr-plus/root/usr/share/shadowsocksr/subscribe.lua
-sed -i "s,'uci','luci.model.uci',g" package/lean/luci-app-ssr-plus/root/usr/share/shadowsocksr/subscribe.lua
-sed -i 's,local ucic = uci.cursor(),local ucic = luci.model.uci.cursor(),g' package/lean/luci-app-ssr-plus/root/usr/share/shadowsocksr/subscribe.lua
 #SSRP依赖
 rm -rf ./feeds/packages/net/kcptun
 svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/shadowsocksr-libev package/lean/shadowsocksr-libev
