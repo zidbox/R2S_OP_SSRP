@@ -19,7 +19,7 @@ sed -i "s,+UnblockNeteaseMusic_NodeJS:UnblockNeteaseMusic ,,g" package/lean/luci
 #git clone -b master --single-branch https://github.com/cnsilvan/UnblockNeteaseMusic package/new/UnblockNeteaseMusic
 #git clone -b master --single-branch https://github.com/cnsilvan/luci-app-unblockneteasemusic package/new/luci-app-unblockneteasemusi
 #irqbalance
-sed -i 's/0/1/g' feeds/packages/utils/irqbalance/files/irqbalance.config
+#sed -i 's/0/1/g' feeds/packages/utils/irqbalance/files/irqbalance.config
 #定时重启
 svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-app-autoreboot package/lean/luci-app-autoreboot
 #主题
@@ -29,7 +29,7 @@ git clone -b master --single-branch https://github.com/QiuSimons/Luci-argon-19 p
 git clone -b master --single-branch https://github.com/rufengsuixing/luci-app-adguardhome package/new/luci-app-adguardhome
 #SSRP
 svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-app-ssr-plus package/lean/luci-app-ssr-plus
-sed -i "s,START=95,START=98,g" package/lean/luci-app-ssr-plus/root/etc/init.d/shadowsocksr
+#sed -i "s,START=95,START=98,g" package/lean/luci-app-ssr-plus/root/etc/init.d/shadowsocksr
 #SSRP依赖
 rm -rf ./feeds/packages/net/kcptun
 svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/shadowsocksr-libev package/lean/shadowsocksr-libev
