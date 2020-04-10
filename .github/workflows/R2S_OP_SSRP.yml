@@ -75,9 +75,28 @@ jobs:
         cd friendlywrt-rk3328/scripts/sd-fuse/out
         rm -rf `ls | grep -v ".img"`
         rm -f .gitignore
+    - name: Assemble Artifact
+      id: assemble_artifact
+      run: |
+        rm -rf ./artifact/
+        mkdir -p ./artifact/
+        mv friendlywrt-rk3328/scripts/sd-fuse/out/*img* ./artifact/
+        zip -r artifact.zip ./artifact/
+        release_tag="R2S-OpenWRT-$(date +%Y-%m-%d)"
+        echo "##[set-output name=release_tag;]$release_tag"
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.sec_token }}
+      with:
+        tag_name: ${{ steps.assemble_artifact.outputs.release_tag }}
+        release_name: 自动发布 ${{ steps.assemble_artifact.outputs.release_tag }}
+        draft: false
+        prerelease: false
     - name: Upload Firmwares
       uses: actions/upload-artifact@master
       with:
-        name: Firmwares
-        path: /home/runner/work/R2S_OP_SSRP/R2S_OP_SSRP/friendlywrt-rk3328/scripts/sd-fuse/out
+        name: R2S
+        path: ./artifact/
  
