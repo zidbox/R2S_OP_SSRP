@@ -94,4 +94,4 @@ jobs:
       with:
         tag_name: ${{ env.RELEASE_TAG }}
         body_path: release.txt
-        files: /home/runner/work/R2S_OP_SSRP/R2S_OP_SSRP/friendlywrt-rk3328/scripts/sd-fuse/out/*img*
+        files: /home/runner/work/R2S_OP_SSRP/R2S_OP_SSRP/friendlywrt-rk3328/scripts/sd-fuse/out/*
