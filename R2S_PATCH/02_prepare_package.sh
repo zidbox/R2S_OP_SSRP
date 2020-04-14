@@ -12,6 +12,8 @@ wget -P package/lean/autocore/files https://raw.githubusercontent.com/QiuSimons/
 rm -rf ./package/lean/autocore/files/rpcd_10_system.js
 wget -P package/lean/autocore/files https://raw.githubusercontent.com/QiuSimons/Others/master/rpcd_10_system.js
 svn co https://github.com/project-openwrt/openwrt/branches/openwrt-19.07/package/lean/coremark package/lean/coremark
+#R2S刷机
+svn co https://github.com/songchenwen/nanopi-r2s/trunk/luci-app-r2sflasher package/new/luci-app-r2sflasher
 #网易云解锁
 svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/UnblockNeteaseMusicGo package/lean/UnblockNeteaseMusicGo
 svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-app-unblockmusic package/lean/luci-app-unblockmusic
