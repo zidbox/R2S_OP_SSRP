@@ -15,11 +15,10 @@ svn co https://github.com/project-openwrt/openwrt/branches/openwrt-19.07/package
 #R2S刷机
 svn co https://github.com/songchenwen/nanopi-r2s/trunk/luci-app-r2sflasher package/new/luci-app-r2sflasher
 #网易云解锁
-svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/UnblockNeteaseMusicGo package/lean/UnblockNeteaseMusicGo
-svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-app-unblockmusic package/lean/luci-app-unblockmusic
-sed -i "s,+UnblockNeteaseMusic_NodeJS:UnblockNeteaseMusic ,,g" package/lean/luci-app-unblockmusic/Makefile
-#git clone -b master --single-branch https://github.com/cnsilvan/UnblockNeteaseMusic package/new/UnblockNeteaseMusic
-#git clone -b master --single-branch https://github.com/cnsilvan/luci-app-unblockneteasemusic package/new/luci-app-unblockneteasemusi
+git clone -b master --single-branch https://github.com/cnsilvan/luci-app-unblockneteasemusic package/new/UnblockNeteaseMusic
+#svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/UnblockNeteaseMusicGo package/lean/UnblockNeteaseMusicGo
+#svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-app-unblockmusic package/lean/luci-app-unblockmusic
+#sed -i "s,+UnblockNeteaseMusic_NodeJS:UnblockNeteaseMusic ,,g" package/lean/luci-app-unblockmusic/Makefile
 #irqbalance
 #sed -i 's/0/1/g' feeds/packages/utils/irqbalance/files/irqbalance.config
 #定时重启
