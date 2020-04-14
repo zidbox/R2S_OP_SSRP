@@ -75,8 +75,6 @@ jobs:
         cd friendlywrt-rk3328/scripts/sd-fuse/out
         rm -rf `ls | grep -v ".img"`
         rm -f .gitignore
-        gzip -9 *.img
-        rm -rf `ls | grep -v ".gz"`
     - name: Upload Firmwares
       uses: actions/upload-artifact@master
       with:
