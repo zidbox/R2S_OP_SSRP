@@ -30,7 +30,7 @@ git clone -b master --single-branch https://github.com/QiuSimons/Luci-argon-19 p
 #AdGuard
 git clone -b master --single-branch https://github.com/rufengsuixing/luci-app-adguardhome package/new/luci-app-adguardhome
 #SSRP
-svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-app-ssr-plus package/lean/luci-app-ssr-plus
+svn co https://github.com/fw876/helloworld/trunk/luci-app-ssr-plus package/lean/luci-app-ssr-plus
 #sed -i "s,START=95,START=98,g" package/lean/luci-app-ssr-plus/root/etc/init.d/shadowsocksr
 #SSRP依赖
 rm -rf ./feeds/packages/net/kcptun
