@@ -1051,7 +1051,7 @@ CONFIG_TCP_CONG_BBR=m
 # CONFIG_TOUCHSCREEN_ADS7846 is not set
 # CONFIG_TSL4531 is not set
 # CONFIG_TULIP is not set
-# CONFIG_TUN is not set
+CONFIG_TUN=m
 # CONFIG_UDF_FS is not set
 # CONFIG_ULI526X is not set
 # CONFIG_USB is not set
