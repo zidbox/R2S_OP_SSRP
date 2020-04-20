@@ -809,7 +809,7 @@ CONFIG_PPP_ASYNC=m
 # CONFIG_PPP_MPPE is not set
 # CONFIG_PPP_MPPE_MPPC is not set
 # CONFIG_PPP_SYNC_TTY is not set
-# CONFIG_PPS is not set
+CONFIG_PPS=m
 # CONFIG_PPS_CLIENT_GPIO is not set
 # CONFIG_PPS_CLIENT_LDISC is not set
 # CONFIG_PPTP is not set
