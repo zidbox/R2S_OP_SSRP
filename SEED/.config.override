@@ -59,8 +59,8 @@
 # CONFIG_BMP280 is not set
 # CONFIG_BMP280_I2C is not set
 # CONFIG_BMP280_SPI is not set
-# CONFIG_BNX2 is not set
-# CONFIG_BNX2X is not set
+CONFIG_BNX2=m
+CONFIG_BNX2X=m
 # CONFIG_BONDING is not set
 # CONFIG_BRIDGE_EBT_802_3 is not set
 # CONFIG_BRIDGE_EBT_AMONG is not set
