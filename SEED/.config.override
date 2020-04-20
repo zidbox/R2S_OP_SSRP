@@ -750,7 +750,7 @@ CONFIG_NF_REJECT_IPV6=m
 # CONFIG_NF_TABLES_SET is not set
 # CONFIG_NIU is not set
 # CONFIG_NLMON is not set
-# CONFIG_NLS is not set
+CONFIG_NLS=m
 # CONFIG_NLS_CODEPAGE_1250 is not set
 # CONFIG_NLS_CODEPAGE_1251 is not set
 # CONFIG_NLS_CODEPAGE_437 is not set
