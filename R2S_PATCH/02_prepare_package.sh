@@ -27,10 +27,7 @@ git clone -b master --single-branch https://github.com/cnsilvan/luci-app-unblock
 #定时重启
 svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-app-autoreboot package/lean/luci-app-autoreboot
 #主题
-#git clone -b master --single-branch https://github.com/QiuSimons/Luci-argon-19 package/new/luci-theme-argon
-svn co https://github.com/Lienol/openwrt-package/trunk/lienol/luci-theme-argon-light-mod package/new/luci-theme-argon-light-mod
-svn co https://github.com/Lienol/openwrt-package/trunk/lienol/luci-theme-argon-dark-mod package/new/luci-theme-argon-dark-mod
-svn co https://github.com/apollo-ng/luci-theme-darkmatter/branches/openwrt-19/luci/themes/luci-theme-darkmatter package/new/luci-theme-darkmatter
+git clone -b master --single-branch https://github.com/QiuSimons/Luci-argon-19 package/new/luci-theme-argon
 #git clone -b master --single-branch https://github.com/jerrykuku/luci-theme-argon package/new/luci-theme-argon
 #AdGuard
 git clone -b master --single-branch https://github.com/rufengsuixing/luci-app-adguardhome package/new/luci-app-adguardhome
