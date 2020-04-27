@@ -29,7 +29,7 @@ tar zxvf ${latest_release}  --strip-components 1 -C ./opofficial
 cd friendlywrt
 git config --local user.email "action@github.com" && git config --local user.name "GitHub Action"
 git remote add upstream https://github.com/openwrt/openwrt.git && git fetch upstream
-git rebase adc1a9a3676b8d7be1b48b5aed185a94d8e42728^ --onto upstream/openwrt-19.07 -X theirs
+git rebase adc1a9a^ --onto upstream/openwrt-19.07 -X theirs
 rm -f ./include/version.mk
 rm -f ./package/base-files/image-config.in
 rm -f ./feeds.conf.default
