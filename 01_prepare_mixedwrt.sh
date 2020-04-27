@@ -34,7 +34,7 @@ rm -f ./include/version.mk
 rm -f ./package/base-files/image-config.in
 cd ..
 cp -f ./opofficial/include/version.mk ./friendlywrt/include/version.mk
-cp -f ./opofficial/include/image-config.in ./friendlywrt/include/image-config.in
+cp -f ./opofficial/package/base-files/image-config.in ./friendlywrt/package/base-files/image-config.in
 cd ..
 ######
 rm -rf ./R2S_PATCH/.git
