@@ -28,6 +28,8 @@ jobs:
         sudo -E apt-get autoremove -y --purge
         sudo -E apt-get clean -y
         sudo -E rm -rf /usr/share/dotnet /etc/mysql /etc/php
+        git clone https://github.com/friendlyarm/repo
+        sudo cp repo/repo /usr/bin/
     - name: Prepare Mixedwrt
       run: |
         sudo chown -R runner:runner /home/runner/work/R2S_OP_SSRP
