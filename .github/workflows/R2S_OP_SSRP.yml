@@ -55,6 +55,7 @@ jobs:
         cat ../package.seed >> ../base_rk3328.seed
         cat ../base_rk3328.seed > configs/config_rk3328
         cat ../base_rk3328.seed > friendlywrt/.config
+        cat ../nanopi-r2_linux_defconfig > ./kernel/arch/arm64/configs/nanopi-r2_linux_defconfig
     - name: Build Mixedwrt
       run: |
         cd friendlywrt-rk3328/friendlywrt
