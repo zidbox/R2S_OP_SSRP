@@ -52,7 +52,7 @@ jobs:
         git clone --single-branch -b nanopi-r2-v5.4.y https://github.com/fanck0605/kernel-rockchip kernel
         cd kernel
         git remote add upstream https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git && git fetch upstream
-        git rebase f62d557a738283aa4f062fc9cc4e8f43ec837a97^ --onto upstream/linux-5.4.y -X theirs
+        git rebase f62d557^ --onto upstream/linux-5.4.y -X theirs
     - name: Patch Kernel
       run: |
         cd friendlywrt-rk3328
