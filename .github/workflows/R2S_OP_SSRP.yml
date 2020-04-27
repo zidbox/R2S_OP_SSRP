@@ -32,7 +32,7 @@ jobs:
         sudo cp repo/repo /usr/bin/
     - name: Prepare Mixedwrt
       run: |
-        sudo chown -R runner:runner /home/runner/work/R2S_OP_SSRP
+        #sudo chown -R runner:runner /home/runner/work/R2S_OP_SSRP
         cp -r ./FULLCONE/. ./
         cp -r ./SEED/. ./
         cp -r ./OTHER/. ./
