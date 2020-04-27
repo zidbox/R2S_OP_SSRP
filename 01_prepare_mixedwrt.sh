@@ -32,11 +32,15 @@ git remote add upstream https://github.com/openwrt/openwrt.git && git fetch upst
 git rebase adc1a9a3676b8d7be1b48b5aed185a94d8e42728^ --onto upstream/openwrt-19.07 -X theirs
 rm -f ./include/version.mk
 rm -f ./package/base-files/image-config.in
-rm -f ./friendlywrt-rk3328/friendlywrt/feeds.conf.default
-wget -P friendlywrt-rk3328/friendlywrt/ https://raw.githubusercontent.com/openwrt/openwrt/openwrt-19.07/feeds.conf.default
+rm -f ./feeds.conf.default
+wget https://raw.githubusercontent.com/openwrt/openwrt/openwrt-19.07/feeds.conf.default
+rm -f ./package/base-files/files/etc/banner
+rm -f ./package/base-files/files/bin/config_generate
 cd ..
 cp -f ./opofficial/include/version.mk ./friendlywrt/include/version.mk
 cp -f ./opofficial/package/base-files/image-config.in ./friendlywrt/package/base-files/image-config.in
+cp -f ./opofficial/package/base-files/files/etc/banner ./friendlywrt/package/base-files/files/etc/banner
+cp -f ./opofficial/package/base-files/files/bin/config_generate ./friendlywrt/package/base-files/files/bin/config_generate
 cd ..
 ######
 rm -rf ./R2S_PATCH/.git
