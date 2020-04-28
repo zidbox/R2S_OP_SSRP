@@ -11,6 +11,8 @@ repo init -u https://github.com/friendlyarm/friendlywrt_manifests -b master-v19.
 repo sync -c --no-tags --no-clone-bundle -j8
 cd friendlywrt/ && git fetch --unshallow
 cd ..
+cd kernel/ && git fetch --unshallow
+cd ..
 latest_feed="$(curl -s https://github.com/openwrt/openwrt/releases |grep -Eo "v[0-9\.]+.tar.gz" |sed -n 1p |sed 's/v//g' |sed 's/.tar.gz//g')"
 sed -i 's,19.07.1,'"${latest_feed}"',g' device/friendlyelec/rk3328/common-files/etc/opkg/distfeeds.conf
 sed -i 's,ACCEPT,REJECT,g' device/friendlyelec/rk3328/default-settings/install.sh
