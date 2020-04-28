@@ -46,18 +46,6 @@ jobs:
       run: |
         cd friendlywrt-rk3328/friendlywrt
         /bin/bash 04_remove_upx.sh
-    - name: Upgrade Kernel
-      run: |
-        cd friendlywrt-rk3328
-        #rm -rf kernel
-        git config --local user.email "action@github.com" && git config --local user.name "GitHub Action"
-        #git clone --single-branch -b nanopi-r2-v5.4.y https://github.com/fanck0605/kernel-rockchip kernel
-        cd kernel
-        git config --local user.email "action@github.com" && git config --local user.name "GitHub Action"
-        git remote add upstream https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git && git fetch upstream
-        git rebase 400467c^ --onto upstream/linux-5.4.y -X theirs
-        rm -f ./arch/arm64/configs/nanopi-r2_linux_defconfig
-        wget -O arch/arm64/configs/nanopi-r2_linux_defconfig https://raw.githubusercontent.com/fanck0605/friendlywrt-kernel/nanopi-r2-v5.4.y/arch/arm64/configs/nanopi-r2_linux_defconfig
     - name: Patch Kernel
       run: |
         cd friendlywrt-rk3328
