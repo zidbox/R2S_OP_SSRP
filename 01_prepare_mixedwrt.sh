@@ -32,6 +32,7 @@ cd friendlywrt
 git config --local user.email "action@github.com" && git config --local user.name "GitHub Action"
 git remote add upstream https://github.com/openwrt/openwrt.git && git fetch upstream
 git rebase adc1a9a^ --onto upstream/openwrt-19.07 -X theirs
+rm target/linux/rockchip-rk3328/patches-4.14/0001-net-thunderx-workaround-BGX-TX-Underflow-issue.patch
 rm -f ./include/version.mk
 rm -f ./package/base-files/image-config.in
 rm -f ./feeds.conf.default
