@@ -3,6 +3,7 @@ clear
 cp -r ./FULLCONE/. ./
 cp -r ./SEED/. ./
 cp -r ./OTHER/. ./
+cp -r ./kernel/. ./
 git clone -b master https://github.com/QiuSimons/R2S_PATCH.git ./R2S_TMP
 #cp -r ./R2S_TMP/. ./R2S_PATCH
 mkdir friendlywrt-rk3328
