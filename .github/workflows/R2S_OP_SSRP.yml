@@ -50,11 +50,9 @@ jobs:
       run: |
         cd friendlywrt-rk3328
         rm -rf kernel
-        git clone --single-branch -b nanopi-r2-v5.4.y https://github.com/fanck0605/kernel-rockchip kernel
+        git clone --single-branch -b linux-5.4.y https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux kernel
         cd kernel
-        git config --local user.email "action@github.com" && git config --local user.name "GitHub Action"
-        git remote add upstream https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git && git fetch upstream
-        git rebase f62d557^ --onto upstream/linux-5.4.y -X theirs
+        patch -Ntp1 < ../../98e1083.patch
     - name: Patch Kernel
       run: |
         cd friendlywrt-rk3328
