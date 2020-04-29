@@ -7,4 +7,3 @@
   5.kernel rebase
   6.openwrt rebase
   6.gui固件升级
-已知问题：
