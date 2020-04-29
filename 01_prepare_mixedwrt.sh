@@ -39,7 +39,8 @@ rm -f ./feeds.conf.default
 wget https://raw.githubusercontent.com/openwrt/openwrt/openwrt-19.07/feeds.conf.default
 rm -f ./package/base-files/files/etc/banner
 rm -f ./package/base-files/files/bin/config_generate
-sed -i 's,"eth1" "eth0","eth0" "eth1",g' target/linux/rockchip-rk3328/base-files/etc/board.d/02_network
+#wan lan对换
+#sed -i 's,"eth1" "eth0","eth0" "eth1",g' target/linux/rockchip-rk3328/base-files/etc/board.d/02_network
 cd ..
 cp -f ./opofficial/include/version.mk ./friendlywrt/include/version.mk
 cp -f ./opofficial/package/base-files/image-config.in ./friendlywrt/package/base-files/image-config.in
