@@ -50,7 +50,6 @@ jobs:
       run: |
         cd friendlywrt-rk3328
         rm -rf kernel
-        git config --local user.email "action@github.com" && git config --local user.name "GitHub Action"
         git clone --single-branch -b nanopi-r2-v5.4.y https://github.com/fanck0605/kernel-rockchip kernel
         cd kernel
         git config --local user.email "action@github.com" && git config --local user.name "GitHub Action"
