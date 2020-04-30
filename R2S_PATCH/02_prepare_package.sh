@@ -4,6 +4,8 @@ clear
 #RPCD依赖
 #rm -rf ./package/system/rpcd
 #svn co https://github.com/openwrt/openwrt/branches/openwrt-19.07/package/system/rpcd package/system/rpcd
+#arpbind
+svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-app-arpbind package/lean/luci-app-arpbind
 #AutoCore
 svn co https://github.com/project-openwrt/openwrt/branches/openwrt-19.07/package/lean/autocore package/lean/autocore
 sed -i "s,@TARGET_x86 ,,g" package/lean/autocore/Makefile
