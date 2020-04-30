@@ -25,7 +25,6 @@ cd friendlywrt
 git config --local user.email "action@github.com" && git config --local user.name "GitHub Action"
 git remote add upstream https://github.com/openwrt/openwrt.git && git fetch upstream
 git rebase upstream/openwrt-19.07
-#rm target/linux/rockchip-rk3328/patches-4.14/0001-net-thunderx-workaround-BGX-TX-Underflow-issue.patch
 #wan lan对换
 #sed -i 's,"eth1" "eth0","eth0" "eth1",g' target/linux/rockchip-rk3328/base-files/etc/board.d/02_network
 #删除不必要的文件
