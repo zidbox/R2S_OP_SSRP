@@ -46,13 +46,6 @@ jobs:
       run: |
         cd friendlywrt-rk3328/friendlywrt
         /bin/bash 04_remove_upx.sh
-    - name: Upgrade Kernel
-      run: |
-        cd friendlywrt-rk3328
-        cd kernel
-        git config --local user.email "action@github.com" && git config --local user.name "GitHub Action"
-        git remote add upstream https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git && git fetch upstream
-        git rebase upstream/linux-5.4.y
     - name: Patch Kernel
       run: |
         cd friendlywrt-rk3328

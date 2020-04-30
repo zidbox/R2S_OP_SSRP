@@ -1,9 +1,7 @@
 #!/bin/bash
 clear
+#更新feed
 ./scripts/feeds update -a && ./scripts/feeds install -a
-#RPCD依赖
-#rm -rf ./package/system/rpcd
-#svn co https://github.com/openwrt/openwrt/branches/openwrt-19.07/package/system/rpcd package/system/rpcd
 #arpbind
 svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-app-arpbind package/lean/luci-app-arpbind
 #AutoCore
@@ -21,9 +19,6 @@ sed -i 's/"luci.fs"/"luci.sys".net/g' package/new/luci-app-r2sflasher/luasrc/mod
 svn co https://github.com/project-openwrt/openwrt/branches/openwrt-19.07/package/lean/pandownload-fake-server package/lean/pandownload-fake-server
 #网易云解锁
 git clone -b master --single-branch https://github.com/project-openwrt/luci-app-unblockneteasemusic package/new/UnblockNeteaseMusic
-#svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/UnblockNeteaseMusicGo package/lean/UnblockNeteaseMusicGo
-#svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-app-unblockmusic package/lean/luci-app-unblockmusic
-#sed -i "s,+UnblockNeteaseMusic_NodeJS:UnblockNeteaseMusic ,,g" package/lean/luci-app-unblockmusic/Makefile
 #irqbalance
 sed -i 's/0/1/g' feeds/packages/utils/irqbalance/files/irqbalance.config
 #定时重启
@@ -35,7 +30,6 @@ git clone -b master --single-branch https://github.com/QiuSimons/Luci-argon-19 p
 git clone -b master --single-branch https://github.com/rufengsuixing/luci-app-adguardhome package/new/luci-app-adguardhome
 #SSRP
 svn co https://github.com/fw876/helloworld/trunk/luci-app-ssr-plus package/lean/luci-app-ssr-plus
-#sed -i "s,START=95,START=98,g" package/lean/luci-app-ssr-plus/root/etc/init.d/shadowsocksr
 #SSRP依赖
 rm -rf ./feeds/packages/net/kcptun
 svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/shadowsocksr-libev package/lean/shadowsocksr-libev
@@ -62,8 +56,6 @@ svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-app-ramfree 
 svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-app-usb-printer package/lean/luci-app-usb-printer
 #流量监视
 svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-app-wrtbwmon package/lean/luci-app-wrtbwmon
-#svn co https://github.com/brvphoenix/luci-app-wrtbwmon/trunk/luci-app-wrtbwmon package/new/luci-app-wrtbwmon
-#svn co https://github.com/brvphoenix/wrtbwmon/trunk/wrtbwmon package/new/wrtbwmon
 #流量监管
 svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-app-netdata package/lean/luci-app-netdata
 #OpenClash
@@ -99,9 +91,6 @@ git clone -b master --single-branch https://github.com/QiuSimons/addition-trans-
 chmod -R 755 ./
 #生成默认配置及缓存
 rm -rf .config
-#mv R2.config .config
 #修正架构
 sed -i "s,boardinfo.system,'ARMv8',g" feeds/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/10_system.js
-mv ../../scripts/check_wan4.sh package/base-files/files/usr/bin && sed -i '/exit/i\/bin/sh /usr/bin/check_wan4.sh &' package/base-files/files/etc/rc.local
-#mv ../../scripts/fullcone.sh package/base-files/files/usr/bin && sed -i '/exit/i\/bin/sh /usr/bin/fullcone.sh &' package/base-files/files/etc/rc.local
 exit 0
