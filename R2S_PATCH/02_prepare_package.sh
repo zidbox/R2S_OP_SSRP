@@ -23,7 +23,7 @@ git clone -b master --single-branch https://github.com/project-openwrt/luci-app-
 #svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-app-unblockmusic package/lean/luci-app-unblockmusic
 #sed -i "s,+UnblockNeteaseMusic_NodeJS:UnblockNeteaseMusic ,,g" package/lean/luci-app-unblockmusic/Makefile
 #irqbalance
-#sed -i 's/0/1/g' feeds/packages/utils/irqbalance/files/irqbalance.config
+sed -i 's/0/1/g' feeds/packages/utils/irqbalance/files/irqbalance.config
 #定时重启
 svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-app-autoreboot package/lean/luci-app-autoreboot
 #主题
