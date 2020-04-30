@@ -33,6 +33,7 @@ rm -f ./feeds.conf.default
 wget https://raw.githubusercontent.com/openwrt/openwrt/openwrt-19.07/feeds.conf.default
 rm -f ./package/base-files/files/etc/banner
 rm -f ./package/base-files/files/bin/config_generate
+sed -i 's,performance,ondemand,g' target/linux/rockchip-rk3328/base-files/etc/init.d/fa-rk3328-misc
 cd ..
 #准备openwrt release tag的源码
 mkdir opofficial
