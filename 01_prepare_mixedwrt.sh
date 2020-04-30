@@ -35,13 +35,13 @@ rm -f ./feeds.conf.default
 wget https://raw.githubusercontent.com/openwrt/openwrt/openwrt-19.07/feeds.conf.default
 rm -f ./package/base-files/files/etc/banner
 rm -f ./package/base-files/files/bin/config_generate
+cd ..
 #准备openwrt release tag的源码
 mkdir opofficial
 latest_release="$(curl -s https://github.com/openwrt/openwrt/releases |grep -Eo "v[0-9\.]+.tar.gz" |sed -n 1p)"
 curl -LO "https://github.com/openwrt/openwrt/archive/${latest_release}"
 tar zxvf ${latest_release}  --strip-components 1 -C ./opofficial
 #恢复部分文件到release分支
-cd ..
 cp -f ./opofficial/include/version.mk ./friendlywrt/include/version.mk
 cp -f ./opofficial/package/base-files/image-config.in ./friendlywrt/package/base-files/image-config.in
 cp -f ./opofficial/package/base-files/files/etc/banner ./friendlywrt/package/base-files/files/etc/banner
