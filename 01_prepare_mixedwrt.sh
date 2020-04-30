@@ -19,7 +19,6 @@ sed -i 's,19.07.1,'"${latest_feed}"',g' device/friendlyelec/rk3328/common-files/
 sed -i 's,ACCEPT,REJECT,g' device/friendlyelec/rk3328/default-settings/install.sh
 #去除不必要的操作
 sed -i 's,./scripts,#./scripts,g' scripts/mk-friendlywrt.sh
-sed -i 's/set -eu/set -u/' scripts/mk-friendlywrt.sh
 #变基friendlywrt到官方1907分支
 cd friendlywrt
 git config --local user.email "action@github.com" && git config --local user.name "GitHub Action"
