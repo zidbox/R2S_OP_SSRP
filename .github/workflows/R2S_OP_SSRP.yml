@@ -49,10 +49,10 @@ jobs:
     - name: Upgrade Kernel
       run: |
         cd friendlywrt-rk3328
-        rm -rf kernel
-        git clone --single-branch -b linux-5.4.y https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux kernel
         cd kernel
-        patch -Ntp1 < ../../98e1083.patch
+        git config --local user.email "action@github.com" && git config --local user.name "GitHub Action"
+        git remote add upstream https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git && git fetch upstream
+        git rebase upstream/linux-5.4.y
     - name: Patch Kernel
       run: |
         cd friendlywrt-rk3328
