@@ -23,7 +23,7 @@ sed -i 's,./scripts,#./scripts,g' scripts/mk-friendlywrt.sh
 cd friendlywrt
 git config --local user.email "action@github.com" && git config --local user.name "GitHub Action"
 git remote add upstream https://github.com/openwrt/openwrt.git && git fetch upstream
-git rebase upstream/openwrt-19.07
+git rebase --skip upstream/openwrt-19.07
 #wan lan对换
 #sed -i 's,"eth1" "eth0","eth0" "eth1",g' target/linux/rockchip-rk3328/base-files/etc/board.d/02_network
 #删除不必要的文件
