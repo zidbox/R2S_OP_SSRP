@@ -37,6 +37,7 @@ git rebase --skip
 #wan lan对换
 #sed -i 's,"eth1" "eth0","eth0" "eth1",g' target/linux/rockchip-rk3328/base-files/etc/board.d/02_network
 #删除不必要的文件
+rm -f ./target/linux/rockchip-rk3328/patches-4.14/0001-net-thunderx-workaround-BGX-TX-Underflow-issue.patch
 rm -f ./include/version.mk
 rm -f ./package/base-files/image-config.in
 rm -f ./feeds.conf.default
