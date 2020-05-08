@@ -3,5 +3,5 @@
 START=99
  
 start() {
-    nohup /bin/sh /bin/checkwan.sh 1>/dev/null 2>&1 &
+    nohup /bin/sh /usr/bin/checkwan.sh 1>/dev/null 2>&1 &
 }
