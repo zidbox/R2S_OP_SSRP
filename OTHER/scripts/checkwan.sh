@@ -3,8 +3,6 @@
 #
 # this script is writing for openwrt
 # this script need the interface named 'lan'
-# to use this script, you must install 'jq' first
-# we need the `jq` to parse `ifstatus`'s result
 
 # usage: `/bin/sh /path/to/check_net4.sh >/dev/null 2>&1 &`
 
