@@ -4,7 +4,7 @@
 # this script is writing for openwrt
 # this script need the interface named 'lan'
 
-# usage: `/bin/sh /path/to/check_net4.sh >/dev/null 2>&1 &`
+# usage: `nohup /bin/sh /path/to/checkwan.sh 1>/dev/null 2>&1 &`
 
 logger 'Check Net4: Script started!'
 
