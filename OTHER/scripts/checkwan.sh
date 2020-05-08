@@ -3,12 +3,29 @@
 #
 # this script is writing for openwrt
 # this script need the interface named 'lan'
+# to use this script, you must install 'jq' first
+# we need the `jq` to parse `ifstatus`'s result
 
-# usage: `nohup /bin/sh /path/to/checkwan.sh 1>/dev/null 2>&1 &`
+# usage: `/bin/sh /path/to/check_net4.sh >/dev/null 2>&1 &`
+
+if ! jq --version >/dev/null 2>&1; then
+  logger "Check Net4: Please install 'jq' first!"
+  exit 1
+fi
+
+get_ipv4_address() {
+  if ! if_status=$(ifstatus $1); then
+    return 1
+  fi
+  echo $if_status | jq -r '."ipv4-address"[0]."address"'
+}
+
+if ! lan_addr=$(get_ipv4_address lan); then
+  logger "Check Net4: Don't support your network environment!"
+  exit 1
+fi
 
 logger 'Check Net4: Script started!'
-
-lan_addr=`ifconfig |grep inet| sed -n '1p'|awk '{print $2}'|awk -F ':' '{print $2}'`
 
 fail_count=0
 
@@ -22,11 +39,12 @@ while :; do
       logger 'Check Net4: Network problems solved!'
     fi
     fail_count=0
-  else
-    # May have some problem
-    logger "Check Net4: Network may have some problems!"
-    fail_count=$((fail_count + 1))
+    continue
   fi
+
+  # May have some problem
+  logger "Check Net4: Network may have some problems!"
+  fail_count=$((fail_count + 1))
 
   if [ $fail_count -ge 3 ]; then
     # Must have some problem! We refresh the ip address and try again!
