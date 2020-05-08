@@ -36,4 +36,5 @@ wget -O arch/arm64/configs/nanopi-r2_linux_defconfig https://raw.githubuserconte
 #启用fullcone内核模块
 wget -O net/netfilter/xt_FULLCONENAT.c https://raw.githubusercontent.com/Chion82/netfilter-full-cone-nat/master/xt_FULLCONENAT.c
 git apply ../../FULLCONE/001-kernel-add-full_cone_nat.patch
+git apply ../../FULLCONE/002-enable-O3.patch
 exit 0
