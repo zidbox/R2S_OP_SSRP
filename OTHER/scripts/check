@@ -1,8 +1,7 @@
-#!bin/sh /etc/rc.common  
-#/init.d/my-test
- 
-START=95
+#!/bin/sh /etc/rc.common
 
-start(){        
-    nohup sh /bin/checkwan.sh  1>/dev/null 2>&1 &
+START=95
+ 
+start() {
+    nohup /bin/sh /bin/checkwan.sh 1>/dev/null 2>&1 &
 }
