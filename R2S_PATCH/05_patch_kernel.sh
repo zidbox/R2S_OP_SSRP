@@ -33,7 +33,7 @@ cd ../
 cd kernel/
 rm -f ./arch/arm64/configs/nanopi-r2_linux_defconfig
 wget -O arch/arm64/configs/nanopi-r2_linux_defconfig https://raw.githubusercontent.com/fanck0605/nanopi-r2s/lean/nanopi-r2_linux_defconfig
-cat ../kernelO3.seed > ./arch/arm64/configs/nanopi-r2_linux_defconfig
+cat ../kernelO3.seed >> ./arch/arm64/configs/nanopi-r2_linux_defconfig
 #启用fullcone内核模块
 wget -O net/netfilter/xt_FULLCONENAT.c https://raw.githubusercontent.com/Chion82/netfilter-full-cone-nat/master/xt_FULLCONENAT.c
 git apply ../../FULLCONE/001-kernel-add-full_cone_nat.patch
