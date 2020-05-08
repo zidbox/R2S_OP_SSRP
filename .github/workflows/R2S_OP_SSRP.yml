@@ -53,7 +53,6 @@ jobs:
     - name: Make Config
       run: |
         cd friendlywrt-rk3328
-        cat configs/config_rk3328 | grep "TARGET" >> ../base_rk3328.seed
         cat ../package.seed >> ../base_rk3328.seed
         cat ../base_rk3328.seed > configs/config_rk3328
         cat ../base_rk3328.seed > friendlywrt/.config
