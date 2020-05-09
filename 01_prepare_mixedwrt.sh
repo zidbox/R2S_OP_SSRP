@@ -39,6 +39,7 @@ git rebase --skip
 #删除不必要的文件
 rm -f ./target/linux/rockchip-rk3328/patches-4.14/0001-net-thunderx-workaround-BGX-TX-Underflow-issue.patch
 rm -f ./include/version.mk
+rm -f ./include/kernel-version.mk
 rm -f ./package/base-files/image-config.in
 rm -f ./feeds.conf.default
 wget https://raw.githubusercontent.com/openwrt/openwrt/openwrt-19.07/feeds.conf.default
@@ -53,6 +54,7 @@ curl -LO "https://github.com/openwrt/openwrt/archive/${latest_release}"
 tar zxvf ${latest_release}  --strip-components 1 -C ./opofficial
 #恢复部分文件到release分支
 cp -f ./opofficial/include/version.mk ./friendlywrt/include/version.mk
+cp -f ./opofficial/include/kernel-version.mk ./friendlywrt/include/kernel-version.mk
 cp -f ./opofficial/package/base-files/image-config.in ./friendlywrt/package/base-files/image-config.in
 cp -f ./opofficial/package/base-files/files/etc/banner ./friendlywrt/package/base-files/files/etc/banner
 cp -f ./opofficial/package/base-files/files/bin/config_generate ./friendlywrt/package/base-files/files/bin/config_generate
