@@ -1,7 +1,7 @@
 name: R2S_OP_SSRP
 
 on:
-#  push:
+#  push: 
 #    branches: 
 #      - master
   schedule:
