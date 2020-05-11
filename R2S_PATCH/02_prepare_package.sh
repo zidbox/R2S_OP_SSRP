@@ -94,6 +94,7 @@ chmod -R 755 ./
 rm -rf .config
 #修正架构
 sed -i "s,boardinfo.system,'ARMv8',g" feeds/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/10_system.js
+sed -i 's/192.168.1.1/192.168.2.1/g' package/base-files/files/bin/config_generate
 mv ../../scripts/checkwan.sh package/base-files/files/usr/bin
 mv ../../scripts/check package/base-files/files/etc/init.d
 exit 0
